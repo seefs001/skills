@@ -34,6 +34,11 @@ Break the plan into **tracer bullet** issues. Each issue is a thin vertical slic
 
 </vertical-slice-rules>
 
+For stateful behavior, run the `/state-modeling` skill if the transitions are
+not already clear. Split state-machine issues by verifiable behavior or
+transition slice, not by horizontal tasks like "add enum", "add reducer", "add
+UI", and "add tests".
+
 ### 4. Quiz the user
 
 Present the proposed breakdown as a numbered list. For each slice, show:
@@ -72,6 +77,17 @@ Avoid specific file paths or code snippets — they go stale fast. Exception: if
 - [ ] Criterion 1
 - [ ] Criterion 2
 - [ ] Criterion 3
+
+## State transitions covered
+
+Include this section when this slice changes stateful behavior.
+
+Run the `/state-modeling` skill if the transitions are not already clear.
+
+- Transition:
+- Invalid transition behavior:
+- Invariant preserved:
+- Side effects:
 
 ## Blocked by
 

@@ -16,6 +16,8 @@ The issue tracker and triage label vocabulary should have been provided to you â
 
 Check with the user that these seams match their expectations.
 
+If the feature is stateful, run the `/state-modeling` skill and summarize the resulting model in the PRD. If the state model is not clear from the existing conversation, code, issue, PRD, or ADRs, mark that gap as an open question or route back through `/grill-with-docs` and `/state-modeling`.
+
 3. Write the PRD using the template below, then publish it to the project issue tracker. Apply the `ready-for-agent` triage label - no need for additional triage.
 
 <prd-template>
@@ -55,6 +57,20 @@ A list of implementation decisions that were made. This can include:
 Do NOT include specific file paths or code snippets. They may end up being outdated very quickly.
 
 Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it within the relevant decision and note briefly that it came from a prototype. Trim to the decision-rich parts â€” not a working demo, just the important bits.
+
+## State Model
+
+Include this section when the feature is stateful. Run the `/state-modeling`
+skill and summarize the resulting model here.
+
+- States
+- Events / commands
+- Legal transitions
+- Invalid transitions
+- Invariants
+- Terminal states
+- Side effects
+- Race / replay behavior
 
 ## Testing Decisions
 

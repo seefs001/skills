@@ -6,7 +6,14 @@ disable-model-invocation: true
 
 Implement the work described by the user in the PRD or issues.
 
-Use /tdd where possible, at pre-agreed seams.
+Before coding, check whether the work is stateful: lifecycle states, statuses,
+workflows, approvals, payments, retries, async jobs, queues, syncing, or any
+process where events change what actions are legal.
+
+If it is stateful, run the `/state-modeling` skill before writing the first
+test or implementation code.
+
+Use `/tdd` where possible, at pre-agreed seams.
 
 Run typechecking regularly, single test files regularly, and the full test suite once at the end.
 

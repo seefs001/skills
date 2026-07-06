@@ -91,6 +91,13 @@ If you cannot state the prediction, the hypothesis is a vibe — discard or shar
 
 **Show the ranked list to the user before testing.** They often have domain knowledge that re-ranks instantly ("we just deployed a change to #3"), or know hypotheses they've already ruled out. Cheap checkpoint, big time saver. Don't block on it — proceed with your ranking if the user is AFK.
 
+### State-transition bugs
+
+If the bug involves an invalid, missing, duplicate, late, out-of-order, or
+concurrent state transition, run the `/state-modeling` skill after the tight
+feedback loop exists. Use the resulting model to rank hypotheses and write the
+regression test.
+
 ## Phase 4 — Instrument
 
 Each probe must map to a specific prediction from Phase 3. **Change one variable at a time.**

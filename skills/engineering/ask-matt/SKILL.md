@@ -52,6 +52,7 @@ Not feature work — upkeep.
 Two model-invoked references that run *beneath* the other skills — each the single source of truth for its vocabulary. Reach for them directly when the **words**, not the process, are the problem; or let the skills above pull them in.
 
 - **`/domain-modeling`** — sharpen the project's *domain* language: challenge a fuzzy term, resolve an overloaded word ("account" doing three jobs), record a hard-to-reverse decision as an ADR. It's the active discipline `/grill-with-docs` drives to keep `CONTEXT.md` a clean glossary.
+- **`/state-modeling`** — clarify lifecycle states, events, legal/illegal transitions, invariants, terminal states, side effects, and replay/race behavior. Reach for it when the words or the implementation depend on a state machine: approvals, payments, retries, async jobs, queues, syncing, or event-driven workflows. `/tdd`, `/implement`, `/to-prd`, `/to-issues`, and `/diagnosing-bugs` may pull it in when stateful behavior is involved.
 - **`/codebase-design`** — the deep-module vocabulary (module, interface, depth, seam, adapter, leverage, locality) for designing a module's *shape*: a lot of behaviour behind a small interface at a clean seam. `/tdd` and `/improve-codebase-architecture` both speak it.
 
 ## Crossing sessions
