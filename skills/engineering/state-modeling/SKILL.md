@@ -1,21 +1,34 @@
 ---
 name: state-modeling
-description: Clarify state machines and lifecycle behavior before implementation. Use when work involves statuses, lifecycle states, workflows, approvals, payments, retries, async jobs, queues, syncing, event-driven transitions, duplicate events, invalid transitions, or when another skill needs state-model discipline.
+description: Statechart modeling before implementation. Use when work involves lifecycle/status fields; workflows, approvals, payments, or retries; async jobs, queues, syncing, or event-driven transitions; duplicate/late/out-of-order/concurrent events; invalid transitions; or when another skill needs state-model discipline.
 ---
 
 # State Modeling
 
-Clarify stateful behavior before implementation.
+Build a statechart before changing stateful behavior.
 
-Use this skill when behavior depends on the current state of a domain object,
-workflow, async job, payment, approval, sync process, queue item, retry cycle,
-or any process where events change what actions are legal.
+## Process
 
-Read [STATE-MODEL.md](./STATE-MODEL.md) and produce the smallest state model
-artifact needed for the current phase.
+1. **Name the subject and seam.** Identify the domain object or process whose
+   state changes, the existing state sources, and the public seam where behavior
+   will be tested or observed. Completion: one state-bearing subject and one
+   seam are written down, or the missing decision is asked as a single focused
+   question.
 
-Do not implement stateful behavior until the model is clear enough to test
-through an agreed public seam.
+2. **Draft the minimum statechart.** Read [STATE-MODEL.md](./STATE-MODEL.md)
+   and capture only the states, events, legal transitions, invalid transitions,
+   invariants, terminal states, side effects, and race/replay behavior needed
+   for the current phase. Completion: every in-scope event has legal behavior
+   and invalid behavior; every relevant transition is explicit.
 
-If the model is hard to reason about on paper, run the `/prototype` skill's
-logic branch before continuing.
+3. **Stress the edges.** Check terminal states, duplicate events, late or
+   out-of-order events, concurrent events, and side-effect failure ordering.
+   Completion: each edge is handled or explicitly ruled out for this work.
+
+4. **Choose the next move.** If the statechart is clear, implement or test
+   through the agreed seam. If product rules are missing, ask one question at a
+   time using the `/grilling` discipline. If the chart is still hard to reason
+   about, run the `/prototype` skill's logic branch before continuing.
+
+Implement stateful behavior only after the statechart can be tested through the
+agreed public seam.
