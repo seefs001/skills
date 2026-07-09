@@ -50,8 +50,8 @@ you are in, then test it through an agreed public seam.
 
 `state-modeling` is a model-invoked discipline underneath the main engineering
 flow. [grill-with-docs](https://aihero.dev/skills-grill-with-docs) uses it when
-the plan contains stateful behavior, [to-prd](https://aihero.dev/skills-to-prd)
-summarizes the model into the PRD, [to-issues](https://aihero.dev/skills-to-issues)
+the plan contains stateful behavior, [to-spec](https://aihero.dev/skills-to-spec)
+summarizes the model into the spec, [to-tickets](https://aihero.dev/skills-to-tickets)
 records which transitions a vertical slice covers, [tdd](https://aihero.dev/skills-tdd)
 uses it before writing tests for stateful behavior, [implement](https://aihero.dev/skills-implement)
 runs it before code for stateful work, and [diagnosing-bugs](https://aihero.dev/skills-diagnosing-bugs)
