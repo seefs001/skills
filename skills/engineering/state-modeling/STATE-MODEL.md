@@ -1,7 +1,6 @@
 # State Model Reference
 
-Use this reference after `/state-modeling` has named the state-bearing subject
-and public seam.
+Use this reference after naming the state-bearing subject and public seam.
 
 ## Minimum model
 
@@ -174,6 +173,6 @@ The state model is clear enough when:
   occur.
 
 If these cannot be answered from conversation, code, PRD, issue, or ADRs, ask
-the user one question at a time using the `/grilling` discipline.
+the user one question at a time.
 
-If the model still feels hard to reason about, use the `/prototype` logic branch.
+If the model still feels hard to reason about, build a throwaway logic prototype.

@@ -1,0 +1,3 @@
+interface:
+  display_name: "State Modeling"
+  short_description: "Model stateful behavior before implementation"

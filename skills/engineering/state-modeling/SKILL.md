@@ -27,8 +27,8 @@ Build a statechart before changing stateful behavior.
 
 4. **Choose the next move.** If the statechart is clear, implement or test
    through the agreed seam. If product rules are missing, ask one question at a
-   time using the `/grilling` discipline. If the chart is still hard to reason
-   about, run the `/prototype` skill's logic branch before continuing.
+   time. If the chart is still hard to reason about, build a throwaway logic
+   prototype before continuing.
 
 Implement stateful behavior only after the statechart can be tested through the
 agreed public seam.
