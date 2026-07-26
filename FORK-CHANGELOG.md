@@ -6,6 +6,19 @@ keeping Seefs-specific changes separate from the upstream release history.
 Use this file for fork-only notes. The upstream package changelog remains in
 [CHANGELOG.md](./CHANGELOG.md).
 
+## 2026-07-26
+
+### Added `translate`
+
+- Added a user-invoked productivity skill at `skills/productivity/translate/`
+  for 信达雅-standard translation with glossary binding, register control, and
+  translator's notes.
+- Worked examples live in `skills/productivity/translate/EXAMPLES.md` behind a
+  context pointer.
+- Wired the promoted-skill surfaces: plugin manifest entry, top-level README
+  entry, productivity README entry, `/ask-matt` Standalone entry, and the
+  human-facing docs page.
+
 ## 2026-07-06
 
 ### Added `state-modeling`

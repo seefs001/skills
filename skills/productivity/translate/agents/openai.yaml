@@ -1,0 +1,5 @@
+interface:
+  display_name: "Translate"
+  short_description: "信达雅 translation with glossary binding"
+policy:
+  allow_implicit_invocation: false
