@@ -73,7 +73,7 @@ Off the main flow entirely.
 - **`/research`** — delegate reading legwork to a **background agent**: it investigates a question against **primary sources**, then leaves a cited Markdown file in the repo. Keep working while it reads. The file it produces is something to take *into* the main flow at `/grill-with-docs` — research feeds the thinking, it doesn't replace it.
 - **`/teach`** — learn a concept over multiple sessions, using the current directory as a stateful workspace.
 - **`/translate`** — translate text between languages under the 信达雅 standard: glossary bindings outrank style, register follows text type, and translator's notes record the judgment calls.
-- **`/writing-great-skills`** — reference for writing and editing skills well.
+- **`/writing-for-agents`** — reference for writing documents agents consume: skills, AGENTS.md, pointed-at docs.
 
 ## Precondition
 
