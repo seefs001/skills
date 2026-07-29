@@ -41,6 +41,7 @@
     "./skills/productivity/grilling",
     "./skills/productivity/handoff",
     "./skills/productivity/teach",
+    "./skills/productivity/to-questionnaire",
     "./skills/productivity/translate",
     "./skills/productivity/writing-for-agents"
   ]
