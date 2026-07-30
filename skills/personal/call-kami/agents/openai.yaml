@@ -1,0 +1,5 @@
+interface:
+  display_name: "Call Kami"
+  short_description: "Prepare a comprehensive dossier for GPT Pro"
+policy:
+  allow_implicit_invocation: false
