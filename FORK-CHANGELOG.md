@@ -6,6 +6,19 @@ keeping Seefs-specific changes separate from the upstream release history.
 Use this file for fork-only notes. The upstream package changelog remains in
 [CHANGELOG.md](./CHANGELOG.md).
 
+## 2026-07-30
+
+### Added `call-kami`
+
+- Imported the locally installed `deep-think-brief` as
+  `skills/personal/call-kami/`, the maintained source of truth for this
+  user-invoked, local-only skill.
+- Reworked the outbound artifact into a durable, comprehensive GPT Pro dossier
+  with environment snapshots, evidence IDs, provenance, explicit omissions,
+  stable redaction, and a separate cover prompt for manual upload.
+- Added a return workflow that checks GPT Pro's claims against the dossier and
+  current local evidence before any recommendation is used.
+
 ## 2026-07-26
 
 ### Added `translate`
