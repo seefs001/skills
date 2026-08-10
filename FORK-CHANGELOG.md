@@ -6,6 +6,15 @@ keeping Seefs-specific changes separate from the upstream release history.
 Use this file for fork-only notes. The upstream package changelog remains in
 [CHANGELOG.md](./CHANGELOG.md).
 
+## 2026-08-10
+
+### Split review from `implement`
+
+- Removed the single forced `/code-review` step from `implement`; the rest of
+  the implementation prompt is unchanged.
+- Kept `code-review` as a separate, optional phase after the implementation
+  commit, preferably run in a fresh session against the branch point.
+
 ## 2026-07-30
 
 ### Added `call-kami`
