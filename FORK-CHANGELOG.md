@@ -6,6 +6,17 @@ keeping Seefs-specific changes separate from the upstream release history.
 Use this file for fork-only notes. The upstream package changelog remains in
 [CHANGELOG.md](./CHANGELOG.md).
 
+## 2026-08-12
+
+### Added `telegram-message`
+
+- Added a model-invoked personal utility that sends any user-requested message
+  to Seefs through Telegram. The explicit request is its only trigger.
+- Bundled a dependency-free Python sender for Telegram Bot API
+  `sendMessage` with HTML formatting; credentials stay in `TELEGRAM_BOT_TOKEN` and
+  `TELEGRAM_ADMIN_ID`.
+- Added the private messaging utility to `ask-matt`.
+
 ## 2026-08-10
 
 ### Split review from `implement`

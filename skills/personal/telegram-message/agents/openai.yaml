@@ -1,0 +1,3 @@
+interface:
+  display_name: "Telegram Message"
+  short_description: "Send a message through Telegram"
