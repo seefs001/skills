@@ -23,18 +23,11 @@ A **seam** is the public boundary you test at: the interface where you observe b
 
 Ask: "What's the public interface, and which seams should we test?"
 
+When the shape of that interface is itself in question (how deep the module is, where the seam belongs, what the interface should expose), call the Skill tool with "codebase-design" for the vocabulary. It is the shared source of the module, interface, depth, seam, adapter, leverage and locality terms, and it is a reference to consult, not a session to run.
+
 ## Stateful behavior
 
-Before writing the first test for stateful behavior, check whether the work
-involves lifecycle states, statuses, workflows, retries, queues, async jobs,
-approvals, payments, syncing, or event-driven transitions.
-
-If so, run the `/state-modeling` skill first.
-
-Tests should exercise the state model through the agreed public seam, not by
-inspecting private state-machine internals.
-
-When the shape of that interface is itself in question (how deep the module is, where the seam belongs, what the interface should expose), call the Skill tool with "codebase-design" for the vocabulary. It is the shared source of the module, interface, depth, seam, adapter, leverage and locality terms, and it is a reference to consult, not a session to run.
+If the behavior under test is stateful (a lifecycle or status field, a workflow, a job or queue, anything where events change which actions are legal) and no statechart for it is in context yet, call the Skill tool with "state-modeling" before writing the first test. Tests then drive the chart through the agreed seam, never by inspecting state-machine internals.
 
 ## Anti-patterns
 

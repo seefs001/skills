@@ -172,7 +172,8 @@ The state model is clear enough when:
   and the terminal/idempotency behavior when terminal states or replay can
   occur.
 
-If these cannot be answered from conversation, code, PRD, issue, or ADRs, ask
+If these cannot be answered from conversation, code, spec, issue, or ADRs, ask
 the user one question at a time.
 
-If the model still feels hard to reason about, build a throwaway logic prototype.
+If the model still feels hard to reason about, call the Skill tool with
+"prototype" for a throwaway logic prototype.

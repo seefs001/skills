@@ -50,15 +50,15 @@ Give the problem whatever length rigorous analysis requires. Completeness and ex
 
 ## Prior attempts and rejected alternatives
 
-1. **<attempt or option>** — <what happened, evidence ID, and why it failed or was rejected>
+1. **<attempt or option>**: <what happened, evidence ID, and why it failed or was rejected>
 
 ## Current hypotheses
 
-1. **<hypothesis>** — <Observed/Inferred/Assumed; supporting and contradicting evidence IDs; confidence>
+1. **<hypothesis>**: <Observed/Inferred/Assumed; supporting and contradicting evidence IDs; confidence>
 
 ## Open questions and unknowns
 
-1. **<unknown>** — <why it matters and what evidence would resolve it>
+1. **<unknown>**: <why it matters and what evidence would resolve it>
 
 ## Evidence index
 
@@ -68,7 +68,7 @@ Give the problem whatever length rigorous analysis requires. Completeness and ex
 
 ## Exhibits
 
-### E1 — <descriptive title>
+### E1: <descriptive title>
 
 - **Kind:** Observed / Inferred / Assumed
 - **Provenance:** <exact path and line range, command and timestamp, URL and access date, or conversation source>

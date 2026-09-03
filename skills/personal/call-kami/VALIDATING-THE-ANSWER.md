@@ -12,7 +12,7 @@ If the dossier is unavailable, say that provenance and drift cannot be checked. 
 
 ## 1. Check drift
 
-First compare the dossier's repository identity—sanitized remote URL and recorded root/worktree—with the current workspace. If they do not identify the same repository, stop the drift comparison and ask the user to switch to or name the correct workspace.
+First compare the dossier's repository identity (sanitized remote URL and recorded root/worktree) with the current workspace. If they do not identify the same repository, stop the drift comparison and ask the user to switch to or name the correct workspace.
 
 Then compare the current environment with the dossier's snapshot:
 
@@ -33,11 +33,11 @@ Keep non-factual judgments separate; assess their tradeoffs only after their pre
 
 Use the dossier and safe fresh local checks. Assign exactly one verdict to every extracted row:
 
-- **Confirmed** — the cited exhibit or a fresh check supports the claim.
-- **Contradicted** — evidence directly refutes it; cite the refuting evidence.
-- **Unsupported** — neither the dossier nor the current environment supports it, including invented files, APIs, flags, benchmarks, or requirements.
-- **Unverifiable** — local evidence cannot decide it; name the missing authority or cheapest safe check.
-- **Stale** — it matched the recorded snapshot but no longer matches the current environment.
+- **Confirmed**: the cited exhibit or a fresh check supports the claim.
+- **Contradicted**: evidence directly refutes it; cite the refuting evidence.
+- **Unsupported**: neither the dossier nor the current environment supports it, including invented files, APIs, flags, benchmarks, or requirements.
+- **Unverifiable**: local evidence cannot decide it; name the missing authority or cheapest safe check.
+- **Stale**: it matched the recorded snapshot but no longer matches the current environment.
 
 A redacted value cannot be recovered from the on-disk dossier. Ask the user interactively when that value is essential; otherwise mark the dependent claim Unverifiable.
 

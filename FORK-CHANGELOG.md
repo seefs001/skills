@@ -6,6 +6,31 @@ keeping Seefs-specific changes separate from the upstream release history.
 Use this file for fork-only notes. The upstream package changelog remains in
 [CHANGELOG.md](./CHANGELOG.md).
 
+## 2026-09-03
+
+### Align the fork with upstream conventions
+
+- Every hook into `state-modeling` (`grill-with-docs`, `to-spec`, `to-tickets`,
+  `implement`, `tdd`, `diagnosing-bugs`) now uses the Skill tool convention from
+  `.agents/invocation.md`, skips the call when the spec or context already
+  carries the chart, and shares one short trigger phrase instead of six copies
+  of the full list. `tdd` gets its seam section back in one piece.
+- `state-modeling` says where its chart lives (the driving skill's artifact,
+  never a file of its own) and hands "does this feel right?" to `prototype`;
+  its reference drops the stale PRD wording. The `to-spec` and `to-tickets`
+  template sections read as omit-when-not-stateful placeholders.
+- Docs pages for `state-modeling` and `translate` follow
+  `.agents/writing-docs.md`: no install block or source link, common questions,
+  dictionary links, fork URLs for repo links. The `implement`, `tdd`,
+  `grill-with-docs`, and `diagnosing-bugs` pages now mention the hook.
+- `ask-matt` maps `call-kami` and labels both personal skills as personal.
+- Em-dashes removed from every fork-owned file; `translate` drops the `原文`
+  echo past its long-text threshold.
+- `telegram-message`: `send.py` runs on the macOS system Python 3.9
+  (`from __future__ import annotations`, `socket.timeout`), accepts `export`
+  and quoted lines in its env file, and the skill states the 4,096-character
+  limit. `CLAUDE.md`/`AGENTS.md` document the `personal/` bucket.
+
 ## 2026-08-12
 
 ### Added `telegram-message`
@@ -62,7 +87,7 @@ Use this file for fork-only notes. The upstream package changelog remains in
 - Kept the reusable state-machine checklist in
   `skills/engineering/state-modeling/STATE-MODEL.md`; other skills call
   `/state-modeling` instead of copying the checklist.
-- Wired `/state-modeling` into `/implement`, `/tdd`, `/to-prd`, `/to-issues`,
+- Wired `/state-modeling` into `/implement`, `/tdd`, `/to-spec`, `/to-tickets`,
   `/grill-with-docs`, `/diagnosing-bugs`, and `/ask-matt`.
 - Added the promoted-skill surfaces: plugin manifest entry, top-level README
   entry, engineering README entry, and human-facing docs page.

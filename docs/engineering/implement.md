@@ -32,7 +32,7 @@ If the tickets came from [to-tickets](https://aihero.dev/skills-to-tickets), the
 
 A run is five beats, in order:
 
-1. Read the ticket or spec and work out the seams.
+1. Read the ticket or spec and work out the seams. If the work is stateful and the spec carries no state model, pin one down first with [state-modeling](https://aihero.dev/skills-state-modeling).
 2. Drive [tdd](https://aihero.dev/skills-tdd) at the pre-agreed seams, one red-green slice at a time.
 3. Typecheck often, run single test files as it goes.
 4. Run the full test suite once, at the end.

@@ -6,6 +6,4 @@ disable-model-invocation: true
 
 Call the Skill tool twice, for "grilling" and "domain-modeling".
 
-If the plan involves lifecycle states, statuses, workflows, approvals,
-payments, retries, async jobs, queues, syncing, or event-driven transitions,
-run the `/state-modeling` skill during the grilling session.
+If the plan turns out to be stateful (a lifecycle or status field, a workflow, a job or queue, anything where events change which actions are legal), also call the Skill tool with "state-modeling" and run its chart through the same interview.

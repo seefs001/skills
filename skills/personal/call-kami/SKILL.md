@@ -34,7 +34,7 @@ Store each run in a durable platform data directory, resolving the first availab
 3. Linux/Unix: `${XDG_DATA_HOME:-$HOME/.local/share}/call-kami`;
 4. Windows: `%LOCALAPPDATA%\call-kami`.
 
-Create `<timestamp>-<slug>/DOSSIER.md` and `COVER-PROMPT.md`. On the return trip, keep `ANSWER.md` and `VALIDATION.md` beside them. This directory is durable local state and must never be added to the project repository. Always report the resolved absolute directory—not the variable expression—and tell the user that existing runs can be listed newest-first from the resolved base directory.
+Create `<timestamp>-<slug>/DOSSIER.md` and `COVER-PROMPT.md`. On the return trip, keep `ANSWER.md` and `VALIDATION.md` beside them. This directory is durable local state and must never be added to the project repository. Always report the resolved absolute directory (never the variable expression) and tell the user that existing runs can be listed newest-first from the resolved base directory.
 
 ## Outbound workflow
 
@@ -85,9 +85,9 @@ This step is done when every evidence lane has reported or is explicitly listed 
 
 Assign stable evidence IDs (`E1`, `E2`, …). Every factual statement in the dossier must be one of:
 
-- **Observed** — cites an evidence ID plus a path and line range, exact command and output, screenshot, URL, or dated source.
-- **Inferred** — cites the observations it rests on and states the reasoning and confidence.
-- **Assumed/unknown** — says what is missing and what would resolve it.
+- **Observed**: cites an evidence ID plus a path and line range, exact command and output, screenshot, URL, or dated source.
+- **Inferred**: cites the observations it rests on and states the reasoning and confidence.
+- **Assumed/unknown**: says what is missing and what would resolve it.
 
 Embed the material GPT Pro needs. Do not write “see `path/to/file`” without including the relevant content as an exhibit. Keep verbatim logs, code, and contract wording when exact text affects the reasoning.
 

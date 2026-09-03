@@ -1,17 +1,28 @@
 #!/usr/bin/env python3
+"""Send one HTML-formatted message through the Telegram Bot API.
+
+Dependency-free, and runs on the Python 3.9 that ships with macOS.
+"""
+
+from __future__ import annotations
 
 import argparse
 import json
 import os
+import socket
 import sys
 import urllib.error
 import urllib.request
 from pathlib import Path
+from typing import NoReturn
 
 CONFIG_PATH = Path.home() / ".config" / "telegram-message" / "env"
+# Telegram counts visible characters after parsing entities, so the raw HTML
+# length is a conservative upper bound: anything that passes here fits.
+MAX_MESSAGE_LENGTH = 4_096
 
 
-def fail(message: str, *, status: int | None = None) -> None:
+def fail(message: str, *, status: int | None = None) -> NoReturn:
     response: dict[str, object] = {"ok": False, "error": message}
     if status is not None:
         response["status"] = status
@@ -22,11 +33,14 @@ def fail(message: str, *, status: int | None = None) -> None:
 def redact(message: object, *secrets: str) -> str:
     sanitized = str(message)
     for secret in secrets:
-        sanitized = sanitized.replace(secret, "<REDACTED>")
+        if secret:
+            sanitized = sanitized.replace(secret, "<REDACTED>")
     return sanitized
 
 
 def read_config() -> dict[str, str]:
+    """Parse ``KEY=value`` lines. Blank lines, ``#`` comments, an ``export``
+    prefix, and single- or double-quoted values are accepted."""
     try:
         lines = CONFIG_PATH.read_text(encoding="utf-8").splitlines()
     except FileNotFoundError:
@@ -39,7 +53,12 @@ def read_config() -> dict[str, str]:
         line = line.strip()
         if not line or line.startswith("#"):
             continue
+        if line.startswith("export "):
+            line = line[len("export "):].lstrip()
         key, separator, value = line.partition("=")
+        key, value = key.strip(), value.strip()
+        if len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'":
+            value = value[1:-1]
         if not separator or not key or not value:
             fail(f"invalid configuration at {CONFIG_PATH}:{line_number}")
         config[key] = value
@@ -51,8 +70,8 @@ def parse_args() -> argparse.Namespace:
         description="Send an HTML message with Telegram Bot API sendMessage."
     )
     source = parser.add_mutually_exclusive_group(required=True)
-    source.add_argument("--file", type=Path, help="Read the UTF-8 Markdown message from a file.")
-    source.add_argument("--stdin", action="store_true", help="Read the Markdown message from stdin.")
+    source.add_argument("--file", type=Path, help="Read the UTF-8 HTML message from a file.")
+    source.add_argument("--stdin", action="store_true", help="Read the HTML message from stdin.")
     return parser.parse_args()
 
 
@@ -69,8 +88,8 @@ def read_message(args: argparse.Namespace) -> str:
     message = message.strip()
     if not message:
         fail("message is empty")
-    if len(message) > 4_096:
-        fail("message exceeds Telegram's 4096-character message limit")
+    if len(message) > MAX_MESSAGE_LENGTH:
+        fail(f"message exceeds Telegram's {MAX_MESSAGE_LENGTH}-character message limit")
     return message
 
 
@@ -106,10 +125,11 @@ def main() -> None:
         except (UnicodeDecodeError, json.JSONDecodeError, AttributeError):
             detail = "Telegram rejected the request"
         fail(redact(detail, token, admin_id), status=error.code)
+    except (TimeoutError, socket.timeout):
+        # socket.timeout is only an alias of TimeoutError from Python 3.10.
+        fail("Telegram request timed out")
     except urllib.error.URLError as error:
         fail(f"could not reach Telegram: {redact(error.reason, token, admin_id)}")
-    except TimeoutError:
-        fail("Telegram request timed out")
 
     try:
         result = json.loads(body)

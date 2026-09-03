@@ -99,10 +99,7 @@ If you cannot state the prediction, the hypothesis is a vibe: discard or sharpen
 
 ### State-transition bugs
 
-If the bug involves an invalid, missing, duplicate, late, out-of-order, or
-concurrent state transition, run the `/state-modeling` skill after the tight
-feedback loop exists. Use the resulting model to rank hypotheses and write the
-regression test.
+If the bug is a wrong transition (invalid, missing, duplicate, late, out-of-order, or concurrent), call the Skill tool with "state-modeling" once the tight feedback loop exists. Rank the hypotheses against the chart, and take the Phase 5 regression test from its test matrix.
 
 ## Phase 4: Instrument
 

@@ -9,26 +9,14 @@ Send exactly what the user asks to send. The request is the gate; the subject an
 
 ## Send
 
-1. Compose one concise HTML message from the user's requested content. Preserve facts, paths, URLs, code, and requested wording. Redact credentials and secrets other than content the user explicitly asks to transmit. Use only Telegram-supported tags: `<b>`, `<i>`, `<u>`, `<s>`, `<tg-spoiler>`, `<a>`, `<code>`, `<pre><code class="language-*">`, `<blockquote>`, and `<blockquote expandable>`. Escape literal `&`, `<`, and `>`.
+1. Compose one HTML message from the requested content. Preserve facts, paths, URLs, code, and requested wording; redact credentials and secrets unless the user explicitly asks to transmit them. Use only Telegram-supported tags (`<b>`, `<i>`, `<u>`, `<s>`, `<tg-spoiler>`, `<a>`, `<code>`, `<pre><code class="language-*">`, `<blockquote>`, `<blockquote expandable>`) and escape literal `&`, `<`, and `>`. Stay under 4,096 characters including tags: the sender rejects anything longer, so trim rather than split.
 2. Write it to a temporary UTF-8 file.
-3. Run:
+3. Run `python3 <skill-directory>/scripts/send.py --file <message-file>`.
+4. Check the result. Success is exit code `0` and `"ok": true`; report the returned `message_id`. Otherwise report the sanitized error verbatim.
 
-```bash
-python3 <skill-directory>/scripts/send.py --file <message-file>
-```
+## Credentials
 
-The sender reads exactly two variables:
-
-- `TELEGRAM_BOT_TOKEN`
-- `TELEGRAM_ADMIN_ID`
-
-Environment values take precedence. Otherwise it reads them from
-`~/.config/telegram-message/env`, which keeps the utility available across
-agent sessions.
-
-It calls Telegram Bot API `sendMessage` with HTML formatting.
-
-4. Check the result. Success requires exit code `0` and `"ok": true`. Report success with the returned `message_id`; otherwise report the sanitized error.
+The sender reads exactly two values, `TELEGRAM_BOT_TOKEN` and `TELEGRAM_ADMIN_ID`: from the environment first, otherwise from `~/.config/telegram-message/env` (`KEY=value` lines), which keeps the utility available across agent sessions. It calls the Bot API `sendMessage` endpoint with `parse_mode=HTML` and nothing else.
 
 ## Completion criterion
 

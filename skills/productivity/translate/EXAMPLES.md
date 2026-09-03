@@ -74,7 +74,7 @@ We leveraged AI technology to boost customer retention.
 "After a crazy week at work, I finally got to unwind at the new riverside cafe. Their lavender latte was *to die for*! As I sipped my coffee, this little sparrow hopped onto my table – bold as brass! We shared crumbs of my croissant while the sunset painted the sky orange. Pure magic."
 
 译文：
-“忙成狗的这周总算熬出头，跑去新开的河边咖啡馆喘口气。他家的薰衣草拿铁绝了！正嘬着咖啡呢，突然蹦来只小麻雀——好家伙，胆儿贼肥！我俩分着吃可颂碎屑，晚霞把天染得橙红橙红的。那感觉，绝绝子！”
+“忙成狗的这周总算熬出头，跑去新开的河边咖啡馆喘口气。他家的薰衣草拿铁绝了！正嘬着咖啡呢，突然蹦来只小麻雀，好家伙，胆儿贼肥！我俩分着吃可颂碎屑，晚霞把天染得橙红橙红的。那感觉，绝绝子！”
 
 [译者注]：
 • 文化归化："*to die for*"→"绝了"；"bold as brass"→"胆儿贼肥"（北方方言强化拟人感）

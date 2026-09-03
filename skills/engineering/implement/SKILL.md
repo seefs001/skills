@@ -6,14 +6,9 @@ disable-model-invocation: true
 
 Implement the work described by the user in the spec or tickets.
 
-Before coding, check whether the work is stateful: lifecycle states, statuses,
-workflows, approvals, payments, retries, async jobs, queues, syncing, or any
-process where events change what actions are legal.
+If the work is stateful (a lifecycle or status field, a workflow, a job or queue, anything where events change which actions are legal) and the spec or ticket does not already carry its state model, call the Skill tool with "state-modeling" before the first test or line of implementation.
 
-If it is stateful, run the `/state-modeling` skill before writing the first
-test or implementation code.
-
-Use `/tdd` where possible, at pre-agreed seams.
+Use /tdd where possible, at pre-agreed seams.
 
 Run typechecking regularly, single test files regularly, and the full test suite once at the end.
 

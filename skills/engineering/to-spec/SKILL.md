@@ -16,7 +16,7 @@ The issue tracker and triage label vocabulary should have been provided to you. 
 
 Check with the user that these seams match their expectations.
 
-If the feature is stateful, run the `/state-modeling` skill and summarize the resulting model in the spec. If the state model is not clear from the existing conversation, code, issue, spec, or ADRs, mark that gap as an open question or route back through `/grill-with-docs` and `/state-modeling`.
+If the feature is stateful, call the Skill tool with "state-modeling" and fill the State Model section from the result. Synthesize only: where the conversation, code, issue, or ADRs leave a transition undecided, record it in that section as an open question rather than asking. If the gaps are large enough that the spec cannot stand, tell the user to run `/grill-with-docs` on them first.
 
 3. Write the spec using the template below, then publish it to the project issue tracker. Apply the `ready-for-agent` triage label - no need for additional triage.
 
@@ -60,17 +60,17 @@ Exception: if a prototype produced a snippet that encodes a decision more precis
 
 ## State Model
 
-Include this section when the feature is stateful. Run the `/state-modeling`
-skill and summarize the resulting model here.
+Only when the feature is stateful; otherwise omit this section. Summarize the chart from state-modeling in domain language:
 
-- States
-- Events / commands
+- States, marking the terminal ones
+- Events and commands
 - Legal transitions
-- Invalid transitions
+- Invalid transitions and what each does (reject, ignore, idempotent no-op, queue, compensate)
 - Invariants
-- Terminal states
-- Side effects
-- Race / replay behavior
+- Side effects, attached to transitions, with persistence ordering for external effects
+- Duplicate, late, out-of-order, and concurrent event behavior
+
+Transitions the conversation left undecided go here as open questions.
 
 ## Testing Decisions
 

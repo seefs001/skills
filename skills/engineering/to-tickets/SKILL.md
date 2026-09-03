@@ -37,7 +37,7 @@ Break the work into **tracer bullet** tickets.
 
 Give each ticket its **blocking edges**: the other tickets that must complete before it can start. A ticket with no blockers can start immediately.
 
-For stateful behavior, run the `/state-modeling` skill if the transitions are not already clear. Split state-machine tickets by verifiable behavior or transition slice, not by horizontal tasks like "add enum", "add reducer", "add UI", and "add tests".
+For stateful behavior, call the Skill tool with "state-modeling" if the spec does not already carry the chart. Slice a state machine by transition ("a submitted order can be cancelled, and a second cancel is a no-op"), never by layer ("add enum", "add reducer", "add UI", "add tests").
 
 **Wide refactors are the exception to vertical slicing.** A **wide refactor** is one mechanical change (rename a column, retype a shared symbol) whose **blast radius** fans across the whole codebase, so a single edit breaks thousands of call sites at once and no vertical slice can land green. Don't force it into a tracer bullet; sequence it as **expand–contract**. First expand: add the new form beside the old so nothing breaks. Then migrate the call sites over in batches sized by blast radius (per package, per directory), each batch its own ticket blocked by the expand, keeping CI green batch to batch because the old form still exists. Finally contract: delete the old form once no caller remains, in a ticket blocked by every migrate batch. When even the batches can't stay green alone, keep the sequence but let them share an integration branch that all block a final integrate-and-verify ticket; green is promised only there.
 
@@ -83,12 +83,12 @@ Do NOT close or modify any parent issue.
 
 ### State transitions covered
 
-Include this section when the ticket changes stateful behavior.
+Only when the ticket changes stateful behavior; otherwise omit this section.
 
-- Transition:
-- Invalid transition behavior:
-- Invariant preserved:
-- Side effects:
+- **Transition:** <state> + <event> -> <state>
+- **Invalid attempts:** what the same event does from the states where it is not legal
+- **Invariant preserved:** the fact that must still hold afterwards
+- **Side effects:** what fires on the transition, and whether before or after persistence
 
 </local-ticket-template>
 
@@ -109,12 +109,12 @@ The end-to-end behaviour this ticket makes work, from the user's perspective, no
 
 ## State transitions covered
 
-Include this section when the ticket changes stateful behavior.
+Only when the ticket changes stateful behavior; otherwise omit this section.
 
-- Transition:
-- Invalid transition behavior:
-- Invariant preserved:
-- Side effects:
+- **Transition:** <state> + <event> -> <state>
+- **Invalid attempts:** what the same event does from the states where it is not legal
+- **Invariant preserved:** the fact that must still hold afterwards
+- **Side effects:** what fires on the transition, and whether before or after persistence
 
 ## Blocked by
 
