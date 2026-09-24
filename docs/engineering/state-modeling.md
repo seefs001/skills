@@ -34,7 +34,7 @@ The checklist behind this lives in the skill's [STATE-MODEL.md](https://github.c
 ## Common questions
 
 **Isn't this `domain-modeling`?**
-It is the neighbour, not the same thing. `domain-modeling` settles what a word *means* and writes it into `CONTEXT.md`; this skill settles what is *allowed to happen* to the thing that word names, and writes nothing. The two are usually wanted together on stateful work: you cannot chart transitions between states nobody has agreed the names of, and a state name that survives the chart is glossary material.
+It is the neighbour, not the same thing. `domain-modeling` settles what a word *means* and writes it into `GLOSSARY.md`; this skill settles what is *allowed to happen* to the thing that word names, and writes nothing. The two are usually wanted together on stateful work: you cannot chart transitions between states nobody has agreed the names of, and a state name that survives the chart is glossary material.
 
 **It ran on work that had no state machine in it.**
 The trigger is any field or process where an event changes which actions are legal, and that is broader than an explicit `status` column: a retry counter, a "synced" flag, an approval bit. If the chart came out as two states and one transition, that is the skill finding a small machine, not a false positive. If there was nothing to chart, the skill is told to keep the chart minimal, not to manufacture one; say so and move on.
