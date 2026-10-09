@@ -19,6 +19,8 @@ Skills in `engineering/` and `productivity/` also have a human-facing docs page 
 
 Every `SKILL.md` is either user-invoked (`disable-model-invocation: true` plus `policy.allow_implicit_invocation: false` in `agents/openai.yaml`, reachable only by the human) or model-invoked (model- or user-reachable). See [.agents/invocation.md](./.agents/invocation.md).
 
+Each `SKILL.md` also carries `metadata.paseo`: the **picker line**, one short Chinese sentence for the Paseo skill picker. On a user-invoked skill it restates the **user prompt** (an imperative the person fires). On a model-invoked skill it restates the **trigger** (the situation in which the model reaches), and it is not written as a command. It does not replace `description`. Keep it under 40 characters.
+
 [`ask-matt`](./skills/engineering/ask-matt/SKILL.md) is the router that maps every user-reachable skill and how they relate. The same trigger that re-syncs a docs page applies to it: whenever you add, rename, remove, or change how a user-reachable skill fits the flows, re-read `ask-matt`'s `SKILL.md` and update it so the map stays accurate: a new skill it never mentions, or a stale one it still routes to, is a router that lies. `personal/` skills are mapped too, labelled `(personal)` so a plugin user knows the route is not shipped to them.
 
 To (re)link every skill outside `deprecated/` and `misc/` into the local harness skill directories (`~/.claude/skills`, `~/.agents/skills`), run `scripts/link-skills.sh`. Each entry is a symlink into this repo, so a `git pull` keeps installed skills current; re-run the script after adding, removing, or renaming a skill.

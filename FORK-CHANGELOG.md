@@ -6,6 +6,24 @@ keeping Seefs-specific changes separate from the upstream release history.
 Use this file for fork-only notes. The upstream package changelog remains in
 [CHANGELOG.md](./CHANGELOG.md).
 
+## 2026-10-09
+
+### Removed `call-kami`
+
+- Deleted `skills/personal/call-kami/`. `ask-matt` and `skills/personal/README.md` no longer route to it.
+- Existing dossiers under `~/Library/Application Support/call-kami` were left in place.
+
+### Removed `translate`
+
+- Deleted `skills/productivity/translate/`. Removed it from `ask-matt`, both READMEs, and `.claude-plugin/plugin.json`.
+- Left `docs/productivity/translate.md` in place and marked it archived. No replacement.
+
+## 2026-09-29
+
+### Paseo picker line
+
+- Each skill's `SKILL.md` now has `metadata.paseo`, a short Chinese picker line. A user-invoked skill's line restates its user prompt. A model-invoked skill's line restates its trigger and is not written as a command. `description` is unchanged.
+
 ## 2026-09-03
 
 ### Align the fork with upstream conventions

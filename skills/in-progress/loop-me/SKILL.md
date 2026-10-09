@@ -3,6 +3,8 @@ name: loop-me
 description: Grill me about specs for the workflows I want to build, within this workspace.
 disable-model-invocation: true
 argument-hint: "A workflow to design, or nothing to go find one"
+metadata:
+  paseo: "多轮追问，把工作流问成 spec"
 ---
 
 Run a stateful `/grilling` session whose only output is **workflow** specs. Use the grilling discipline (relentless, a round of questions at a time, a recommended answer attached to each) aimed at the vocabulary and goal below. Create, edit, and delete specs as the grilling resolves things.

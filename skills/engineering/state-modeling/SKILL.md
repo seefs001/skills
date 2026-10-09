@@ -1,6 +1,8 @@
 ---
 name: state-modeling
 description: Statechart modeling before implementation. Use when work involves lifecycle/status fields; workflows, approvals, payments, or retries; async jobs, queues, syncing, or event-driven transitions; duplicate/late/out-of-order/concurrent events; invalid transitions; or when another skill needs state-model discipline.
+metadata:
+  paseo: "动手前要画清状态、事件和非法转移"
 ---
 
 # State Modeling

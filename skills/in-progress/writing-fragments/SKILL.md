@@ -2,6 +2,8 @@
 name: writing-fragments
 description: "Writing, explore: mine raw fragments, no structure yet."
 disable-model-invocation: true
+metadata:
+  paseo: "追问出写作碎片，先不组织结构"
 ---
 
 <what-to-do>

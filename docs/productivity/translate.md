@@ -1,3 +1,5 @@
+> **Archived.** Removed from this fork on 2026-10-09. It was never in upstream 1.3.1. No replacement.
+
 ## What it does
 
 `translate` renders text between languages as a professional translator would, judged on the **信达雅** triad in strict priority order: 信 (faithful), then 达 (fluent), then 雅 (elegant). A glossary you supply is binding. Term mappings outrank every other instruction, including the style guide, so `Force Majeure=不可抗力` holds on every occurrence without you repeating it, and a prettier rendering never wins over the bound one.

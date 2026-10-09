@@ -1,6 +1,8 @@
 ---
 name: diagnosing-bugs
 description: Diagnosis loop for hard bugs and performance regressions. Use when the user says "diagnose"/"debug this", or reports something broken/throwing/failing/slow.
+metadata:
+  paseo: "难 bug 或变慢需要一条可复现回路"
 ---
 
 # Diagnosing Bugs

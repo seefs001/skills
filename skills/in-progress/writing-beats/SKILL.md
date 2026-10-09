@@ -2,6 +2,8 @@
 name: writing-beats
 description: Writing, exploit; assemble raw material into a journey of beats, grounding each term before a beat leans on it.
 disable-model-invocation: true
+metadata:
+  paseo: "按节拍把素材写成文章"
 ---
 
 <what-to-do>

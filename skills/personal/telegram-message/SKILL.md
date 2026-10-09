@@ -1,6 +1,8 @@
 ---
 name: telegram-message
 description: Send a message to Seefs through Telegram. Use whenever the user asks to send, notify, forward, or post something on Telegram.
+metadata:
+  paseo: "你明确要求把内容发到 Telegram"
 ---
 
 # Telegram Message

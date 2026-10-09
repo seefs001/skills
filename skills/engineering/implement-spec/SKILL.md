@@ -2,6 +2,8 @@
 name: implement-spec
 description: "Implement the result of /to-spec and /to-tickets in code."
 disable-model-invocation: true
+metadata:
+  paseo: "在一条集成分支上并行做完 spec"
 ---
 
 You have been provided a spec. This spec should have tickets associated with it, describing how to implement the spec.

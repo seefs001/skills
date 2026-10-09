@@ -2,6 +2,8 @@
 name: ask-matt
 description: Ask which skill or flow fits your situation. A router over the skills in this repo.
 disable-model-invocation: true
+metadata:
+  paseo: "按处境选技能和流程"
 ---
 
 # Ask Matt
@@ -90,10 +92,8 @@ Off the main flow entirely.
 - **`/to-questionnaire`** comes in when the thing blocking you isn't in your head or the codebase but in **someone else's**, and it writes them a questionnaire to fill in. It's the inverse of `/grill-me`: instead of interviewing you about the subject, it interviews you about the **send** (who it's going to, what you need back) and aims the questions at the gap. What comes back is material for `/grill-with-docs` or `/to-spec`.
 - **`/wizard`** is for the steps only a **human** can take: provisioning infrastructure, setting up credentials or CI secrets, clicking through an unfamiliar third-party dashboard, running a one-off migration or cutover. It generates an interactive bash script that opens each URL, captures each value, and writes it into `.env` and GitHub secrets, so the procedure stops being something you re-explain to an agent every time. Model-invoked, so the agent reaches for it the moment it hits a wall only you can pass. If the agent could just do it itself, it should; this is for where a human is genuinely in the loop.
 - **`/telegram-message`** (personal, linked locally rather than shipped in the plugin): send whatever the user asks to send to Seefs' Telegram. The request is the only trigger.
-- **`/call-kami`** (personal): when a question has outgrown the session, it packages the evidence into a self-contained dossier for you to hand to GPT Pro, then validates the answer you bring back against that dossier and the current tree. It never sends anything itself.
 - **`/wait-what`** is the corrective for a message that didn't land. Use it mid-conversation, inside any other skill, and the agent re-pitches what it just said with the context you were missing, in plain English, using the `GLOSSARY.md` vocabulary. It works after the fact; `/grill-with-docs` is the upfront cure, because a shared language agreed early is what stops the jargon arriving at all.
 - **`/teach`**: learn a concept over multiple sessions, using the current directory as a stateful workspace.
-- **`/translate`**: translate text between languages under the 信达雅 standard: glossary bindings outrank style, register follows text type, and translator's notes record the judgment calls.
 - **`/writing-for-agents`** is the reference for writing documents agents consume: skills, AGENTS.md, pointed-at docs.
 
 - **`/chief-of-staff`** (experimental, installed separately rather than shipped in the plugin): pursue a long-running goal in one session by coordinating subagents and suggesting recurring schedules where the harness supports them. Invoke it yourself when you want a strategic coordinator across tasks rather than a build of one settled spec.

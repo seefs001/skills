@@ -18,13 +18,37 @@ A `wayfinder` unit: a child **Issue** of a `wayfinder:map` holding a *question* 
 **Triage role**:
 A canonical state-machine label applied to an **Issue** during triage (e.g. `needs-triage`, `ready-for-afk`). Each role maps to a real label string in the **Issue tracker** via `docs/agents/triage-labels.md`.
 
+**User-invoked**:
+A skill only a person can start, by typing its name. No model and no other skill can start it.
+_Avoid_: slash command, manual skill
+
+**Model-invoked**:
+A skill the model may start on its own. A person may also start it by typing its name.
+_Avoid_: automatic skill, background skill
+
+**User prompt**:
+The human-facing sentence of a **user-invoked** skill: the sentence a person fires by typing that skill's name. This is the 用户调用提示词.
+_Avoid_: trigger, picker line
+
+**Trigger**:
+The model-facing sentence of a **model-invoked** skill. It says when the model should reach for the skill. It is not a **user prompt**.
+_Avoid_: user prompt, 用户调用提示词
+
+**Picker line**:
+The short Chinese sentence the Paseo skill picker shows for one skill. It restates either that skill's **user prompt** or its **trigger**, and the picker says which.
+_Avoid_: description
+
 ## Relationships
 
 - An **Issue tracker** holds many **Issues**
 - An **Issue** carries one **Triage role** at a time
 - A **Decision ticket** is an **Issue** (a child of a `wayfinder:map`)
+- A **user-invoked** skill has a **user prompt**
+- A **model-invoked** skill has a **trigger**
+- A **picker line** restates one of those two sentences, and names which
 
 ## Flagged ambiguities
 
 - "backlog" was previously used to mean both the *tool* hosting issues and the *body of work* inside it. Resolved: the tool is the **Issue tracker**; "backlog" is no longer used as a domain term.
 - "backlog backend" / "backlog manager". Resolved: collapsed into **Issue tracker**.
+- "description" was used for a **user prompt**, a **trigger**, and the **picker line**. Resolved: a **user-invoked** skill's description is a **user prompt**; a **model-invoked** skill's description is a **trigger**; the picker shows a **picker line** marked as one or the other.

@@ -2,6 +2,7 @@
 name: pr
 description: "Use when writing a PR body."
 metadata:
+  paseo: "在写 PR 正文"
   credits:
     skill: show-me
     author: Dex Horthy
