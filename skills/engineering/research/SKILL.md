@@ -1,8 +1,6 @@
 ---
 name: research
-description: Investigate a question against high-trust primary sources and capture the findings as a Markdown file in the repo. Use when the user wants a topic researched, docs or API facts gathered, or reading legwork delegated to a background agent.
-metadata:
-  paseo: "要查一手资料并写成带引用的笔记"
+description: "Research a topic against primary sources and save a cited Markdown note. Use when the user asks for research, a written investigation, or reading legwork delegated to a background agent. Skip for a single fact lookup."
 ---
 
 Spin up a **background agent** to do the research, so you keep working while it reads.

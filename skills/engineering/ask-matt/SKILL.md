@@ -2,8 +2,6 @@
 name: ask-matt
 description: Ask which skill or flow fits your situation. A router over the skills in this repo.
 disable-model-invocation: true
-metadata:
-  paseo: "按处境选技能和流程"
 ---
 
 # Ask Matt

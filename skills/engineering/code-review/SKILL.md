@@ -1,8 +1,6 @@
 ---
 name: code-review
-description: "Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes: Standards (does the code follow this repo's documented coding standards?) and Spec (does the code match what the originating issue/spec asked for?). Runs both reviews in parallel sub-agents and reports them side by side. Use when the user wants to review a branch, a PR, work-in-progress changes, or asks to \"review since X\"."
-metadata:
-  paseo: "一块改动要按标准和 spec 审查"
+description: "Review a diff since a commit, branch, tag, or merge-base against the repo's documented standards and its originating spec. Use when the user asks to review a branch, a PR, work-in-progress changes, or \"since X\"."
 ---
 
 Two-axis review of the diff between `HEAD` and a fixed point the user supplies:

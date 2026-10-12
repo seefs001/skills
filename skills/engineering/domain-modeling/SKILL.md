@@ -1,8 +1,6 @@
 ---
 name: domain-modeling
-description: Build and sharpen a project's domain model. Use when discussing codebase terminology, writing or editing a GLOSSARY.md, or recording or editing an ADR.
-metadata:
-  paseo: "在改术语、术语表或 ADR"
+description: "Build and sharpen a project's domain model. Use when writing or editing GLOSSARY.md or an ADR, or settling a contested domain term."
 ---
 
 # Domain Modeling

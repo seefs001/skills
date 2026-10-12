@@ -6,6 +6,14 @@ keeping Seefs-specific changes separate from the upstream release history.
 Use this file for fork-only notes. The upstream package changelog remains in
 [CHANGELOG.md](./CHANGELOG.md).
 
+## 2026-10-12
+
+### Removed the Paseo picker field
+
+- Removed `metadata.paseo` from every `SKILL.md`, dropping empty `metadata` blocks and preserving other metadata.
+- Removed the picker-line requirement from `CLAUDE.md` (also linked as `AGENTS.md`) and the picker-line vocabulary from `GLOSSARY.md`.
+- Skill descriptions and behavior are unchanged by this removal.
+
 ## 2026-10-09
 
 ### Removed `call-kami`
@@ -22,7 +30,7 @@ Use this file for fork-only notes. The upstream package changelog remains in
 
 ### Paseo picker line
 
-- Each skill's `SKILL.md` now has `metadata.paseo`, a short Chinese picker line. A user-invoked skill's line restates its user prompt. A model-invoked skill's line restates its trigger and is not written as a command. `description` is unchanged.
+- Added `metadata.paseo` to each skill's `SKILL.md` for a short Chinese picker line. This field was removed on 2026-10-12.
 
 ## 2026-09-03
 

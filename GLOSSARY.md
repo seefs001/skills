@@ -28,15 +28,11 @@ _Avoid_: automatic skill, background skill
 
 **User prompt**:
 The human-facing sentence of a **user-invoked** skill: the sentence a person fires by typing that skill's name. This is the 用户调用提示词.
-_Avoid_: trigger, picker line
+_Avoid_: trigger
 
 **Trigger**:
 The model-facing sentence of a **model-invoked** skill. It says when the model should reach for the skill. It is not a **user prompt**.
 _Avoid_: user prompt, 用户调用提示词
-
-**Picker line**:
-The short Chinese sentence the Paseo skill picker shows for one skill. It restates either that skill's **user prompt** or its **trigger**, and the picker says which.
-_Avoid_: description
 
 ## Relationships
 
@@ -45,10 +41,9 @@ _Avoid_: description
 - A **Decision ticket** is an **Issue** (a child of a `wayfinder:map`)
 - A **user-invoked** skill has a **user prompt**
 - A **model-invoked** skill has a **trigger**
-- A **picker line** restates one of those two sentences, and names which
 
 ## Flagged ambiguities
 
 - "backlog" was previously used to mean both the *tool* hosting issues and the *body of work* inside it. Resolved: the tool is the **Issue tracker**; "backlog" is no longer used as a domain term.
 - "backlog backend" / "backlog manager". Resolved: collapsed into **Issue tracker**.
-- "description" was used for a **user prompt**, a **trigger**, and the **picker line**. Resolved: a **user-invoked** skill's description is a **user prompt**; a **model-invoked** skill's description is a **trigger**; the picker shows a **picker line** marked as one or the other.
+- "description" was used for both a **user prompt** and a **trigger**. Resolved: a **user-invoked** skill's description is a **user prompt**; a **model-invoked** skill's description is a **trigger**.
