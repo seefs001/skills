@@ -3,7 +3,7 @@ name: research
 description: "Research a topic against primary sources and save a cited Markdown note. Use when the user asks for research, a written investigation, or reading legwork delegated to a background agent. Skip for a single fact lookup."
 ---
 
-Spin up a **background agent** to do the research, so you keep working while it reads.
+Spin up a **background agent** to do the research, so you keep working while it reads. Start it with a fresh context window.
 
 Its job:
 
