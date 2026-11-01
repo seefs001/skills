@@ -94,7 +94,8 @@ Off the main flow entirely.
 - **`/teach`**: learn a concept over multiple sessions, using the current directory as a stateful workspace.
 - **`/writing-for-agents`** is the reference for writing documents agents consume: skills, AGENTS.md, pointed-at docs.
 
-- **`/chief-of-staff`** (experimental, installed separately rather than shipped in the plugin): pursue a long-running goal in one session by coordinating subagents and suggesting recurring schedules where the harness supports them. Invoke it yourself when you want a strategic coordinator across tasks rather than a build of one settled spec.
+- **`/software-factory`** (experimental, installed separately rather than shipped in the plugin): shared language, task examples and service surveys for designing an agent-driven software factory. Invoke it alongside a grilling session when deciding which tasks to automate, which services to use and where human review belongs; it is a design reference, not a factory runner.
+- **`/chief-of-staff`** (experimental, installed separately rather than shipped in the plugin): pursue a long-running goal in one session by coordinating subagents and suggesting recurring schedules where the harness supports them. It prefers an existing shared wiki, samples sessions for retros and takes larger work through spec, tickets and implementation. Invoke it yourself when you want a strategic coordinator across tasks rather than a build of one settled spec.
 
 ## Precondition
 
