@@ -29,6 +29,19 @@ Every skill that dispatches a subagent says to start it with a fresh context win
 
 ## Agent skills
 
+### Vendored pstack
+
+`vendor/pstack/` is upstream pstack's Claude Code tree (`cursor/plugins`, `harness/pstack/claude-code`), adapted for Pi. Sync it by hand, in the same session as every `upstream` (mattpocock/skills) sync:
+
+1. Run `scripts/sync-pstack.sh`. It replaces `vendor/pstack/`, keeps `docs/harness/pi.md`, renames colliding skills (`tdd` to `pstack-tdd`, `teach` to `pstack-teach`), rewrites `/pstack:<name>` to `/skill:<name>`, and points every skill at the Pi adapter instead of the Claude Code one.
+2. Review `git diff vendor/pstack`. Check that:
+   - no skill still opens with "In Claude Code, read the Claude Code adapter" (`rg -l 'In Claude Code, read \[the Claude Code adapter' vendor/pstack/skills` prints nothing; `poteto-help` mentions the adapter in its install notes, which is fine);
+   - no new skill name collides with one under `skills/` (compare `ls vendor/pstack/skills` with this repo's skill names). Add any collision to `RENAMES` in the script and re-run;
+   - `docs/harness/pi.md` still covers every row of `docs/harness/claude-code.md`. When upstream adds a Cursor name, tool, or field, add the matching Pi row by hand.
+3. Edit vendored files by hand only for adaptations the script cannot express, and move each repeatable one into the script so the next sync keeps it.
+
+Vendored skills sit outside the bucket rules above (no README, plugin.json, docs page, or `ask-matt` entry). `scripts/link-skills.sh` links them locally and skips any name this repo already owns.
+
 ### Triage labels
 
 Canonical names, unchanged. See `docs/agents/triage-labels.md`. Issues are judged against [`SCOPE.md`](./SCOPE.md).

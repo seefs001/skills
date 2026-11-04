@@ -30,6 +30,22 @@ while IFS= read -r -d '' skill_md; do
   srcs+=("$src")
 done < <(find "$REPO/skills" -name SKILL.md -not -path '*/node_modules/*' -not -path '*/deprecated/*' -not -path '*/misc/*' -print0)
 
+# Vendored pstack skills (scripts/sync-pstack.sh). A name this repo already
+# owns wins, so the vendored copy is skipped with a note.
+if [ -d "$REPO/vendor/pstack/skills" ]; then
+  for src in "$REPO/vendor/pstack/skills"/*/; do
+    src="${src%/}"
+    [ -f "$src/SKILL.md" ] || continue
+    name="$(basename "$src")"
+    if printf '%s\n' "${names[@]}" | grep -qxF "$name"; then
+      echo "skip pstack/$name: name already used by this repo"
+      continue
+    fi
+    names+=("$name")
+    srcs+=("$src")
+  done
+fi
+
 for DEST in "${DESTS[@]}"; do
   # If $DEST is a symlink that resolves into this repo, we'd end up writing the
   # per-skill symlinks back into the repo's own skills/ tree. Detect and bail
