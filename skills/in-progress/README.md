@@ -16,3 +16,5 @@ npx skills@latest add mattpocock/skills --skill=<name>
 - **[claude-handoff](./claude-handoff/SKILL.md)**: Hand the current conversation off to a fresh background agent that picks up the work immediately, seeded with a handoff summary via `claude --bg`. User-invoked.
 - **[setup-ts-deep-modules](./setup-ts-deep-modules/SKILL.md)**: Wire dependency-cruiser into a TypeScript repo so each package is a deep module: implementation hidden in subfolders, reachable only through its entry-point files, tests exercising it through those. User-invoked.
 - **[software-factory](./software-factory/SKILL.md)**: Shared language for designing a software factory: the tasks it runs and the services it plugs into. Call it alongside a grilling session. User-invoked.
+- **[paseo-artifact](./paseo-artifact/SKILL.md)**: Write or refresh the summary Artifact for a Paseo goal or workspace from the conversation, the Desk and the Artifacts collection. User-invoked.
+- **[paseo-artifacts](./paseo-artifacts/SKILL.md)**: Keep a Paseo workspace's plans, notes, diagrams, screenshots and reports in one Artifacts collection the user can find any time.

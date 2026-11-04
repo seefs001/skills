@@ -96,6 +96,7 @@ Off the main flow entirely.
 
 - **`/software-factory`** (experimental, installed separately rather than shipped in the plugin): shared language, task examples and service surveys for designing an agent-driven software factory. Invoke it alongside a grilling session when deciding which tasks to automate, which services to use and where human review belongs; it is a design reference, not a factory runner.
 - **`/chief-of-staff`** (experimental, installed separately rather than shipped in the plugin): pursue a long-running goal in one session by coordinating subagents and suggesting recurring schedules where the harness supports them. It prefers an existing shared wiki, samples sessions for retros and takes larger work through spec, tickets and implementation. Invoke it yourself when you want a strategic coordinator across tasks rather than a build of one settled spec.
+- **`/paseo-artifact`** (experimental, installed separately rather than shipped in the plugin): write or refresh the summary Artifact for a Paseo goal (ask, plan, decisions, results, evidence) from the conversation, the Desk and the workspace's Artifacts collection. Invoke it yourself when you want to see where a goal stands; it records nothing on the Desk. Its model-invoked companion **`/paseo-artifacts`** keeps plans, notes, diagrams and reports in that collection as the work produces them.
 
 ## Precondition
 
