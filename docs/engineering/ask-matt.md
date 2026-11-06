@@ -2,11 +2,11 @@
 
 `ask-matt` is the router over the skills in this repo. You describe the situation you are in (an idea you cannot start, a pile of incoming bug reports, a [session](https://www.aihero.dev/ai-coding-dictionary/session) that has run long), and it names the skill or the sequence of skills that fits, plus where the human decisions in that sequence sit.
 
-It recommends and stops. It does not grill, write a [spec](https://www.aihero.dev/ai-coding-dictionary/spec), open a file or fire the skill it just named; what you get back is the next thing to type, and you type it. It is also a hand-written map of this fork's skills rather than a scan of what you have installed, so it will not route you over unlisted skills.
+It recommends and stops. It reads the relevant skill files to check its advice, but does not grill, write a [spec](https://www.aihero.dev/ai-coding-dictionary/spec) or run the skill it just named. What you get back is the next thing to type. The map covers this fork's skills and its locally linked pstack branch, not every skill you happen to have installed.
 
 ## When to reach for it
 
-You invoke this by typing `/ask-matt`; the agent won't reach for it on its own.
+You invoke this by typing `/ask-matt` (`/skill:ask-matt` in Pi); the agent won't reach for it on its own.
 
 | Your situation | What the router gives back |
 | --- | --- |
@@ -18,7 +18,7 @@ You invoke this by typing `/ask-matt`; the agent won't reach for it on its own.
 
 ## Prerequisites
 
-The router names skills; it does not install them. Everything it points at has to be installed for the recommendation to be actionable. It knows the promoted skills plus explicitly mapped personal and experimental skills in this fork.
+The router names skills; it does not install them. Everything it points at has to be installed for the recommendation to be actionable. It knows the promoted skills, explicitly mapped personal and experimental skills, and this fork's locally linked pstack skills. The promoted Claude Code plugin does not include pstack.
 
 The tracker-dependent routes (triage, `to-spec`, `to-tickets`, `implement`) assume [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) has already configured an issue tracker in the repo. The router recommends them even before that has happened.
 
@@ -32,9 +32,24 @@ The skill's leading word is **flow**, a path *through* the skills rather than a 
 - **Standalones**, which sit off every flow and which you use on their own: the prototype, the questionnaire, the research run. The experimental [chief-of-staff](https://github.com/seefs001/skills/blob/main/skills/in-progress/chief-of-staff/SKILL.md) coordinates subagents toward a long-running goal, prefers an existing shared wiki and takes larger work through spec, tickets and implementation. The experimental [software-factory](https://github.com/seefs001/skills/blob/main/skills/in-progress/software-factory/SKILL.md) supplies shared language, task examples and service surveys for designing an agent-driven factory alongside a grilling session. Neither experimental skill is shipped in the plugin.
 - **A vocabulary layer underneath**, the three references the other skills pull in when the words rather than the process are the problem.
 
+## Choosing between the two flows
+
+`ask-matt` chooses between this repo's flow and pstack, while [poteto-help](https://github.com/seefs001/skills/blob/main/vendor/pstack/skills/poteto-help/SKILL.md) keeps the detailed pstack map. There is one place to ask without copying the whole pstack catalogue into the router.
+
+| What you want next | Route |
+| --- | --- |
+| Clarify an idea, preserve domain decisions, or work through a spec and issues | The main flow above |
+| Give a concrete task to a playbook that selects its own steps and verification | [poteto-mode](https://github.com/seefs001/skills/blob/main/vendor/pstack/skills/poteto-mode/SKILL.md) |
+| Understand an existing change or subsystem | `pstack-teach`, rather than the multi-session learning workspace that `teach` creates |
+| Check standards and spec coverage | `code-review`; use pstack's `interrogate` for demonstrated failures, or `blast-radius` for consequences outside the diff |
+
+The router keeps the flow you already chose unless the requested deliverable calls for a different one. A settled spec can feed pstack, but `implement` and `poteto-mode` are alternative drivers, not two required phases of the same build.
+
+In Pi, recommendations use `/skill:<name>` and the local names `pstack-tdd` and `pstack-teach`. The [Pi adapter](https://github.com/seefs001/skills/blob/main/vendor/pstack/docs/harness/pi.md) defines the limits: the session's [model](https://www.aihero.dev/ai-coding-dictionary/model) replaces per-role model selection, [subagents](https://www.aihero.dev/ai-coding-dictionary/subagent) need an explicit delegation request, and Cursor-only steps may be skipped. Choosing pstack does not grant permission to commit, publish or add tests.
+
 ## The phase boundary
 
-The skill's other key idea is the **phase boundary**. A phase is a chunk of work inside a session (the [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling), the implementation, the QA), and the boundary between two of them is the only place the question "what do I do with this context?" belongs. Mid-phase there is nothing to decide: continue, or split what is left into [subagents](https://www.aihero.dev/ai-coding-dictionary/subagent).
+The skill's other key idea is the **phase boundary**. A phase is a chunk of work inside a session (the [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling), the implementation, the QA), and the boundary between two of them is the only place the question "what do I do with this context?" belongs. Mid-phase there is nothing to decide: continue, or split what is left into subagents.
 
 | Option | Take it when |
 | --- | --- |
@@ -54,11 +69,11 @@ People keep asking for one in the README. This skill is that list. A static tabl
 
 **It told me half the skills aren't installed.**
 
-This is a known bug, and it is not fixed. Most of the skills the router routes you through set `disable-model-invocation: true`, which means the harness leaves them out of the skill list it injects into the agent's context. The agent reads that list as exhaustive and reports them missing. In one reported session, it declared the whole spec-and-tickets flow absent and rerouted to bare `/grilling` and `/tdd`. Sixteen of the plugin's twenty-seven skills carry the flag, so this is the common case rather than an edge. They are installed. Type the slash command anyway, or check `.claude-plugin/plugin.json`, which is the authority on what is present.
+User-invoked skills can be installed without appearing in the skill list injected into the agent's context. In one reported session, the router treated that list as exhaustive, declared the whole spec-and-tickets flow absent and rerouted to bare `/grilling` and `/tdd`. For promoted skills, check the installed plugin and `.claude-plugin/plugin.json`. For locally linked pstack skills, check the installed skill directories and the vendored tree instead; the promoted manifest does not list them. The pstack branch tells the agent to check those locations before reporting a missing skill.
 
 **It described a skill's behaviour, and the skill doesn't do that.**
 
-This is also a real bug, and also not fixed. The router answers from its own one-line summary of each skill rather than from the skill. One detailed report tracked three instances in a single session, including a recommendation to skip [to-spec](https://aihero.dev/skills-to-spec) based only on the summary "turn the thread into a spec". The router never opened `to-spec/SKILL.md`. In every case it verified only after the user pushed back, and never on its own initiative. Skipping `to-spec` there cost a real seam check, and the tickets that came out undercounted the work. When the router states something about another skill that you will act on, ask it to open that `SKILL.md` first. The same applies to questions the map does not cover at all, such as whether to use [plan mode](https://www.aihero.dev/ai-coding-dictionary/agent-mode): that answer is the [model](https://www.aihero.dev/ai-coding-dictionary/model)'s inference, not something written down here.
+This is also a real bug, and also not fixed. The router answers from its own one-line summary of each skill rather than from the skill. One detailed report tracked three instances in a single session, including a recommendation to skip [to-spec](https://aihero.dev/skills-to-spec) based only on the summary "turn the thread into a spec". The router never opened `to-spec/SKILL.md`. In every case it verified only after the user pushed back, and never on its own initiative. Skipping `to-spec` there cost a real seam check, and the tickets that came out undercounted the work. When the router states something about another skill that you will act on, ask it to open that `SKILL.md` first. The same applies to questions the map does not cover at all, such as whether to use [plan mode](https://www.aihero.dev/ai-coding-dictionary/agent-mode): that answer is the model's inference, not something written down here.
 
 **Why is it prose instead of a numbered checklist?**
 
@@ -66,7 +81,7 @@ It is a fair complaint. An open issue argues that most of the routing is determi
 
 **Can it route over every skill I install?**
 
-No. Three separate proposals have asked for a router that reads your local `skills/` directory and recommends from whatever is installed. `ask-matt` is not that. It is a map maintained by hand. This fork can add personal entries such as `telegram-message`, but arbitrary installed skills remain invisible until the map names them.
+No. Three separate proposals have asked for a router that reads your local `skills/` directory and recommends from whatever is installed. `ask-matt` is a map maintained by hand. This fork explicitly includes personal entries such as `telegram-message` and a pstack branch that consults pstack's own map. Other installed skill collections remain outside its scope.
 
 **It told me to edit a SKILL.md.**
 
@@ -80,7 +95,8 @@ Check the changelog for a rename before assuming it is gone. `writing-great-skil
 
 - It ends by naming what to type and stops there, instead of starting the work itself.
 - The route it gives back mentions where to clear or compact context and where you are expected to review, not just a list of skill names.
-- Where two skills are close, it says which one and why the other is wrong for you.
+- Where two skills are close, it says which one and why the other is wrong for you, including `teach` versus `pstack-teach` and `tdd` versus `pstack-tdd`.
+- A pstack recommendation distinguishes what runs in your harness from upstream features it cannot provide.
 - Any claim it makes about another skill's behaviour shows up in the trace as it reading that skill's `SKILL.md`.
 - You recognise your own situation in what it hands back, rather than the nearest generic scenario.
 

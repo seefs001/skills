@@ -1,6 +1,6 @@
 ---
 name: ask-matt
-description: Ask which skill or flow fits your situation. A router over the skills in this repo.
+description: Ask which skill or flow fits your situation, including this fork's locally linked pstack skills.
 disable-model-invocation: true
 ---
 
@@ -8,9 +8,22 @@ disable-model-invocation: true
 
 You don't remember every skill, so ask.
 
+Recommend the next skill or flow and stop. Reading its instructions to check a recommendation does not mean running them. Give the next command in the current harness's syntax; in Pi, use `/skill:<name>`.
+
 Before stating what a skill does or recommending a step be skipped, read that skill's SKILL.md: the summaries here are for orientation only.
 
-A **flow** is a path through the skills. Most paths run along one **main flow**, and two **on-ramps** merge onto it. Everything else is standalone, or a vocabulary layer that runs underneath.
+A **flow** is a path through the skills. The **main flow** below follows an idea through spec, issues and implementation. This fork also links pstack locally, with its own task-driven flow and specialist skills.
+
+## Choose the flow
+
+| Situation | Route |
+| --- | --- |
+| Clarify an idea, preserve decisions, or build through a spec and issues | The main flow below, or its on-ramps |
+| Use pstack, or let a playbook drive a concrete task from goal to verification | Read [PSTACK.md](PSTACK.md) for the pstack branch |
+| Explain an existing subsystem, probe breakage beyond a diff, or create a reusable app-verification skill | Read [PSTACK.md](PSTACK.md) for pstack's specialist routes |
+| Compare a pstack skill with a skill below, including the two TDD or teaching skills | Read [PSTACK.md](PSTACK.md) for the overlap boundaries |
+
+Respect a flow the user already chose. When both fit, keep the active flow, or use the main flow below if none is active. A settled spec can be input to pstack, but recommend one execution flow at a time rather than stacking both around the same task.
 
 ## The main flow: idea → ship
 

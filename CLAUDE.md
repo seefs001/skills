@@ -39,8 +39,14 @@ Every skill that dispatches a subagent says to start it with a fresh context win
    - no new skill name collides with one under `skills/` (compare `ls vendor/pstack/skills` with this repo's skill names). Add any collision to `RENAMES` in the script and re-run;
    - `docs/harness/pi.md` still covers every row of `docs/harness/claude-code.md`. When upstream adds a Cursor name, tool, or field, add the matching Pi row by hand.
 3. Edit vendored files by hand only for adaptations the script cannot express, and move each repeatable one into the script so the next sync keeps it.
+4. If pstack content changes, complete the related integration updates in the same session. Replacing `vendor/pstack/` alone does not complete the sync:
+   - Read the changed skills, playbooks, and guide pages. Check them against `poteto-help`, `poteto-mode`, and the Pi adapter. Update `skills/engineering/ask-matt/SKILL.md` and `skills/engineering/ask-matt/PSTACK.md` wherever entry points, names, behaviour, overlaps, or runtime limits have changed.
+   - Re-sync `docs/engineering/ask-matt.md` when its routing advice changes. Update the README summaries and `ask-matt/agents/openai.yaml` when their descriptions are affected. Keep the Pi adapter and sync-script rewrites aligned as required by steps 2 and 3.
+   - Report what changed and which related files were updated. If no related edit is needed, explain why the existing routing, docs, and adapter still apply.
 
-Vendored skills sit outside the bucket rules above (no README, plugin.json, docs page, or `ask-matt` entry). `scripts/link-skills.sh` links them locally and skips any name this repo already owns.
+If only the source commit or version in `vendor/pstack/UPSTREAM` changes and the content is identical, report a metadata-only sync; do not force unrelated edits.
+
+Vendored skills sit outside the bucket rules above (no individual README entries, plugin.json entries, or docs pages). `ask-matt` routes into pstack through its [pstack branch](./skills/engineering/ask-matt/PSTACK.md); `poteto-help` owns the detailed pstack map. `scripts/link-skills.sh` links them locally and skips any name this repo already owns.
 
 ### Triage labels
 
