@@ -41,6 +41,7 @@ The skill's leading word is **flow**, a path *through* the skills rather than a 
 | Clarify an idea, preserve domain decisions, or work through a spec and issues | The main flow above |
 | Give a concrete task to a playbook that selects its own steps and verification | [poteto-mode](https://github.com/seefs001/skills/blob/main/vendor/pstack/skills/poteto-mode/SKILL.md) |
 | Understand an existing change or subsystem | `pstack-teach`, rather than the multi-session learning workspace that `teach` creates |
+| Pin down a lifecycle or check event interleavings | `state-modeling` for an ordinary lifecycle; when concurrent, retried, or late events decide correctness, run pstack's `statechart` explicitly to model-check it |
 | Check standards and spec coverage | `code-review`; use pstack's `interrogate` for demonstrated failures, or `blast-radius` for consequences outside the diff |
 
 The router keeps the flow you already chose unless the requested deliverable calls for a different one. A settled spec can feed pstack, but `implement` and `poteto-mode` are alternative drivers, not two required phases of the same build.

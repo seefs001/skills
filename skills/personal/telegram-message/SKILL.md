@@ -9,7 +9,7 @@ Send exactly what the user asks to send. The request is the gate; the subject an
 
 ## Send
 
-1. Compose one HTML message from the requested content. Preserve facts, paths, URLs, code, and requested wording; redact credentials and secrets unless the user explicitly asks to transmit them. Use only Telegram-supported tags (`<b>`, `<i>`, `<u>`, `<s>`, `<tg-spoiler>`, `<a>`, `<code>`, `<pre><code class="language-*">`, `<blockquote>`, `<blockquote expandable>`) and escape literal `&`, `<`, and `>`. Stay under 4,096 characters including tags: the sender rejects anything longer, so trim rather than split.
+1. Compose one HTML message from the requested content. Preserve facts, paths, URLs, code, and requested wording; redact credentials and secrets unless the user explicitly asks to transmit them. Use only Telegram-supported tags (`<b>`, `<i>`, `<u>`, `<s>`, `<tg-spoiler>`, `<a>`, `<code>`, `<pre><code class="language-*">`, `<blockquote>`, `<blockquote expandable>`) and escape literal `&`, `<`, and `>`. Stay under 4,096 characters including tags, counting an emoji as two: the sender rejects anything longer, so trim rather than split.
 2. Write it to a temporary UTF-8 file.
 3. Run `python3 <skill-directory>/scripts/send.py --file <message-file>`.
 4. Check the result. Success is exit code `0` and `"ok": true`; report the returned `message_id`. Otherwise report the sanitized error verbatim.

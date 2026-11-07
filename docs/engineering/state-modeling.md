@@ -1,8 +1,8 @@
 ## What it does
 
-`state-modeling` pins down a lifecycle before any code touches it: the states, the events and commands that move between them, which transitions are legal, what every illegal attempt does, the invariants, the terminal states, the side effects, and what happens when events arrive twice, late, out of order, or at the same time.
+`state-modeling` pins down a lifecycle before any code touches it: the states and events in scope, which transitions are legal, what an illegal attempt does, and the invariants the change could break.
 
-It refuses to let stateful code start until that chart exists and can be tested through an agreed public seam. The skill itself writes nothing to disk: the chart lives in the conversation and travels in whatever the driving skill produces, the spec's State Model section, a ticket's transitions, a test matrix. Where a product rule is genuinely missing it asks one question rather than inventing a transition to keep moving.
+It keeps the chart as small as the change. A status toggle gets a sentence; a payment flow gets a table. Stateful code waits until that chart can be tested through an agreed public seam. The skill itself writes nothing to disk: the chart lives in the conversation and travels in whatever the driving skill produces, the spec's State Model section, a ticket's transitions, a test matrix. Where a product rule is genuinely missing it asks one question rather than inventing a transition to keep moving.
 
 ## When to reach for it
 
@@ -17,21 +17,30 @@ Reach for it when the question is *what is allowed to happen next*: a status fie
 | The *shape* of the module that will hold the machine: where its seam goes, how small its interface can be | [codebase-design](https://aihero.dev/skills-codebase-design) |
 | The chart is drawn but nobody can tell whether it feels right | [prototype](https://aihero.dev/skills-prototype), which turns it into a clickable page |
 | A transition is misbehaving and you do not know why | [diagnosing-bugs](https://aihero.dev/skills-diagnosing-bugs), which calls this skill once it has a repro |
+| Correctness depends on how concurrent, retried, or late events interleave | pstack's optional `statechart`, which model-checks a TLA+ spec (see below) |
 
 ## The minimum chart
 
 The leading word is **minimum**. The skill asks for the smallest chart the current phase needs and nothing more: at grilling time that may be a paragraph, at ticket time one transition with its invalid attempts, at TDD time a test matrix. A full transition table for a two-state toggle is ceremony; a bare enum for a payment flow is a bug waiting for a duplicate webhook.
 
-Whatever the size, four things are never skipped:
+Whatever the size, the chart covers what the change touches:
 
-- **Invalid transitions are explicit.** Every event has a defined behavior from every relevant state, even where that behavior is "ignore" or "idempotent no-op". Grouping states that behave the same is fine; leaving them implicit is not.
-- **Side effects hang off transitions, not states.** A notification fires on `Submitted → Approved`, not "while Approved", and the chart says whether it fires before or after persistence and what happens if either half fails.
-- **Terminal states handle replay.** A cancelled job that receives a late completion event has a defined answer.
-- **Races are decided, not discovered.** Duplicate, late, out-of-order, and concurrent events are each handled or explicitly ruled out, with the idempotency key, ordering source, or lock named where one is needed.
+- **Invalid transitions are explicit.** Each in-scope event has a defined behavior from each state the change touches, even where that behavior is "ignore" or "idempotent no-op". States that behave the same are grouped.
+- **Side effects hang off transitions, not states.** A notification fires on `Submitted → Approved`, not "while Approved", and when an external call is involved the chart says whether it fires before or after persistence.
+- **Only reachable risks are charted.** Duplicate, late, or concurrent events get an answer when they can reach the behavior the change touches, and stay out of the chart when they cannot.
 
-The checklist behind this lives in the skill's [STATE-MODEL.md](https://github.com/seefs001/skills/blob/main/skills/engineering/state-modeling/STATE-MODEL.md), read on demand rather than up front. It offers four formats (a state capsule, a transition table, a Mermaid diagram, a test matrix) so the chart can be as light as the phase allows.
+The reference behind this lives in the skill's [STATE-MODEL.md](https://github.com/seefs001/skills/blob/main/skills/engineering/state-modeling/STATE-MODEL.md), read on demand rather than up front. It offers four formats (a short note, a transition table, a Mermaid diagram, a test matrix) so the chart can be as light as the change allows.
+
+## When a chart is not enough
+
+Some bugs live in the ordering of events: two writers race, a retry lands after a cancel, a callback arrives late. Checking those interleavings by hand is easy to get wrong, because a missed ordering looks just like a safe one. For that case the skill recommends pstack's [statechart](https://github.com/seefs001/skills/blob/main/vendor/pstack/skills/statechart/SKILL.md), which writes a TLA+ model, checks it with TLC, and reports the shortest path to each broken rule. The agent recommends it; you decide whether to run it, because it is user-invoked and its first run may need to install TLC and Java, which still follows your usual approval for installs.
+
+`statechart` is optional. It comes from the locally vendored pstack, not from the Claude Code plugin, so a plugin install does not have it. A clean model check covers only the modeled behavior within its bounds, and a bug path found in a model of code counts only once it is replayed against the real code.
 
 ## Common questions
+
+**Should I use pstack's `statechart` instead?**
+For most stateful changes, no: a short chart settles them and adds no tooling. `statechart` is the escalation when correctness depends on event interleavings or a state bug will not reproduce. It checks the model and generates its chart, which is more than drawing a diagram, so it costs a TLA+ spec and possibly a tool install.
 
 **Isn't this `domain-modeling`?**
 It is the neighbour, not the same thing. `domain-modeling` settles what a word *means* and writes it into `GLOSSARY.md`; this skill settles what is *allowed to happen* to the thing that word names, and writes nothing. The two are usually wanted together on stateful work: you cannot chart transitions between states nobody has agreed the names of, and a state name that survives the chart is glossary material.
@@ -44,8 +53,8 @@ Nowhere of its own. [to-spec](https://aihero.dev/skills-to-spec) carries it as t
 
 ## It's working if
 
-- Someone can say what a duplicate event does in every terminal state without opening the code.
-- A side effect is always stated with the transition that fires it, and with what happens if persistence fails.
+- Someone can say what a duplicate event does without opening the code, whenever one can reach the behavior the change touches.
+- A side effect is always stated with the transition that fires it.
 - The chart gets *smaller* as the phase gets earlier: a paragraph at grilling, a table at ticketing, a matrix at TDD.
 - Tests drive the machine through its public seam; none reaches in to assert on an internal state variable.
 - When a product rule is missing you get one question, not a chart with an invented transition in it.

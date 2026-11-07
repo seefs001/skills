@@ -5,7 +5,7 @@ Skills are organized into bucket folders under `skills/`:
 - `misc/`: kept around but rarely used, not promoted
 - `in-progress/`: beta: public on purpose, feedback wanted, not shipped in the plugin
 - `deprecated/`: no longer used
-- `personal/`: fork-only, tied to Seefs' own setup (Telegram, GPT Pro dossiers); not promoted, linked locally by `scripts/link-skills.sh`
+- `personal/`: fork-only, tied to Seefs' own setup (Telegram, Paseo); not promoted, linked locally by `scripts/link-skills.sh`
 
 Every skill in `engineering/` or `productivity/` (the **promoted** buckets) must have a reference in the top-level `README.md` and an entry in `.claude-plugin/plugin.json`'s `skills` array (the Claude Code plugin ships exactly the promoted set). Skills in `misc/`, `in-progress/`, `deprecated/`, and `personal/` must not appear in either.
 
@@ -34,7 +34,7 @@ Every skill that dispatches a subagent says to start it with a fresh context win
 `vendor/pstack/` is upstream pstack's Claude Code tree (`cursor/plugins`, `harness/pstack/claude-code`), adapted for Pi. Sync it by hand, in the same session as every `upstream` (mattpocock/skills) sync:
 
 1. Run `scripts/sync-pstack.sh`. It replaces `vendor/pstack/`, keeps `docs/harness/pi.md`, renames colliding skills (`tdd` to `pstack-tdd`, `teach` to `pstack-teach`), rewrites `/pstack:<name>` to `/skill:<name>`, and points every skill at the Pi adapter instead of the Claude Code one.
-2. Review `git diff vendor/pstack`. Check that:
+2. Run `scripts/check-fork.sh`; it checks the name collisions and leftover Claude Code openers below, plus the bucket rules above. Then review `git diff vendor/pstack`. Check that:
    - no skill still opens with "In Claude Code, read the Claude Code adapter" (`rg -l 'In Claude Code, read \[the Claude Code adapter' vendor/pstack/skills` prints nothing; `poteto-help` mentions the adapter in its install notes, which is fine);
    - no new skill name collides with one under `skills/` (compare `ls vendor/pstack/skills` with this repo's skill names). Add any collision to `RENAMES` in the script and re-run;
    - `docs/harness/pi.md` still covers every row of `docs/harness/claude-code.md`. When upstream adds a Cursor name, tool, or field, add the matching Pi row by hand.
@@ -47,6 +47,10 @@ Every skill that dispatches a subagent says to start it with a fresh context win
 If only the source commit or version in `vendor/pstack/UPSTREAM` changes and the content is identical, report a metadata-only sync; do not force unrelated edits.
 
 Vendored skills sit outside the bucket rules above (no individual README entries, plugin.json entries, or docs pages). `ask-matt` routes into pstack through its [pstack branch](./skills/engineering/ask-matt/PSTACK.md); `poteto-help` owns the detailed pstack map. `scripts/link-skills.sh` links them locally and skips any name this repo already owns.
+
+### Upstream sync
+
+Merge `upstream/main` into `main`; never rebase the published branch. Keep `git config rerere.enabled true` so recurring conflict resolutions replay. After each merge: run the pstack sync above, run `scripts/check-fork.sh`, and add a `FORK-CHANGELOG.md` entry. For each fork edit to an upstream-owned file, ask whether it is still needed or could go upstream; the fewer, the cheaper every merge.
 
 ### Triage labels
 

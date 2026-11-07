@@ -1,0 +1,5 @@
+interface:
+  display_name: "Paseo Summary"
+  short_description: "Write or refresh a goal's result pack for Paseo"
+policy:
+  allow_implicit_invocation: false

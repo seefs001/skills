@@ -58,7 +58,11 @@ One answer is to remove Claude Code's built-in skills entirely. That saves a lot
 
 **Its sub-agents keep invoking `/code-review` again and spawn more agents.**
 
-This is a known open bug. Several people have reproduced it, in more than one harness. The Standards and Spec prompts do not forbid delegation, so a sub-agent can find the skill again and fan out again. One report reached more than 50 agents. The fix people have applied on forks is one line appended to both sub-agent briefs: "Do not invoke `/code-review` or spawn additional agents: perform this review directly." Some prefer to handle it at the harness level so every skill inherits the guard. Neither is in the shipped skill yet. If you run this unattended, watch the agent count.
+This is a known open bug upstream. Several people have reproduced it, in more than one harness. One report reached more than 50 agents. This fork appends one line to both sub-agent briefs: "Do not invoke `/code-review` or spawn additional agents: perform this review directly." That is an instruction, not a structural guard, so if you run this unattended, still watch the agent count.
+
+**Can I keep working while it reviews, or change my mind?**
+
+Yes, where the harness has a background mode. Both axes run in the background and the report arrives when both finish. Ask for status and you hear which axes have reported. Add a standards file or an area to check, and it goes to that axis as a follow-up. Change the fixed point or the spec, and both sub-agents stop and the review restarts, because their findings are about the wrong diff. Cancel, and you get whatever already came back, marked partial.
 
 **Should I run it in the same [session](https://www.aihero.dev/ai-coding-dictionary/session) that wrote the code?**
 

@@ -17,9 +17,14 @@ from pathlib import Path
 from typing import NoReturn
 
 CONFIG_PATH = Path.home() / ".config" / "telegram-message" / "env"
-# Telegram counts visible characters after parsing entities, so the raw HTML
-# length is a conservative upper bound: anything that passes here fits.
+# Telegram limits the text to 4,096 characters after entity parsing, counted in
+# UTF-16 code units (an emoji outside the BMP counts as two). Measuring the raw
+# HTML in UTF-16 units is a conservative upper bound: anything that passes fits.
 MAX_MESSAGE_LENGTH = 4_096
+
+
+def utf16_length(text: str) -> int:
+    return len(text.encode("utf-16-le")) // 2
 
 
 def fail(message: str, *, status: int | None = None) -> NoReturn:
@@ -88,7 +93,7 @@ def read_message(args: argparse.Namespace) -> str:
     message = message.strip()
     if not message:
         fail("message is empty")
-    if len(message) > MAX_MESSAGE_LENGTH:
+    if utf16_length(message) > MAX_MESSAGE_LENGTH:
         fail(f"message exceeds Telegram's {MAX_MESSAGE_LENGTH}-character message limit")
     return message
 

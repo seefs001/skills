@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: "Review a diff since a commit, branch, tag, or merge-base against the repo's documented standards and its originating spec. Use when the user asks to review a branch, a PR, work-in-progress changes, or \"since X\"."
+description: "Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes: Standards (does the code follow this repo's documented coding standards?) and Spec (does the code match what the originating issue/spec asked for?). Runs both reviews in parallel sub-agents and reports them side by side. Use when the user wants to review a branch, a PR, work-in-progress changes, or asks to \"review since X\"."
 ---
 
 Two-axis review of the diff between `HEAD` and a fixed point the user supplies:
@@ -57,7 +57,18 @@ Each smell reads *what it is* → *how to fix*; match it against the diff:
 
 ### 4. Spawn both sub-agents in parallel
 
-Issue both sub-agent calls together, in the foreground, and aggregate the reports they return.
+Issue both sub-agent calls together and aggregate the reports they return. Prefer the harness's background mode, so the user can keep talking while the reviews run and the harness tells you when each one finishes; do not poll in a loop. If the harness has no background mode, run them in the foreground.
+
+Append this line to both briefs: "Do not invoke `/code-review` or spawn additional agents: perform this review directly."
+
+While they run, handle user requests by kind:
+
+- **Check on it**: say which axes have reported. Do not interrupt a running sub-agent to ask.
+- **Add to it** (for example, one more standards file or one more area to look at): queue it and pass it to the matching axis as a follow-up, or as a short second pass after that axis reports.
+- **Redirect it** (a new fixed point, a different spec, a different diff): stop both sub-agents and restart from step 1. Their findings are about the wrong diff, so do not keep them.
+- **Cancel it**: stop both sub-agents and report whatever already came back, marked partial.
+
+When both have reported, go straight to step 5 without waiting to be asked.
 
 **Standards sub-agent prompt** should include:
 

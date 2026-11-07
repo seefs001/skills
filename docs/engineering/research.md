@@ -24,7 +24,9 @@ The line between `research` and `grill-with-docs` is the **shelf life of what co
 
 The reading runs as a **background agent**. You keep working while it follows each claim to its primary source, writes one Markdown file, and reports back. Research is legwork you delegate, not thinking you outsource. You get a document to grill, plan, or design against, and you still make the decision.
 
-Nothing stops the background agent from spawning another background agent of its own. This is the skill's best-documented problem.
+While it reads, you can steer it. Ask how far it has got, and you get an answer from its output so far, without the agent stopping. Add a requirement that keeps the scope, and it is queued for after the current step. Change the scope ("only Chinese posts on X" instead of "all Chinese sources"), and the agent is stopped and restarted on the new scope, with the partial file kept. Cancel it, and you get the path of whatever it wrote. When it finishes, the harness signals completion and you get the path and a short answer without asking.
+
+The skill tells the background agent that it is already the subagent and must do the reading itself, which is the fork's guard against the nesting bug below.
 
 The repo decides where the file goes, not the skill. It follows whatever convention already exists for notes. If there is none, it picks a sensible place and tells you where. It writes one file per run.
 
@@ -63,6 +65,8 @@ No, it now fires them for you. In the unreleased changes since v1.1, a charting 
 ## It's working if
 
 - Your own session keeps going. If you are sitting watching it read, the delegation didn't happen.
+- When you change the scope mid-run, the old run stops and a new one starts; you do not wait for the old run to finish.
+- When it finishes, you hear about it without asking.
 - Exactly one new background task appears. A second one with a near-identical name is the nesting bug.
 - One new Markdown file shows up, in the folder the repo already uses for notes, and the agent tells you the path.
 - Every claim in it carries a link, and following two at random lands you on an official doc, a spec, or the source file itself, not on someone's write-up of it.

@@ -6,13 +6,54 @@ keeping Seefs-specific changes separate from the upstream release history.
 Use this file for fork-only notes. The upstream package changelog remains in
 [CHANGELOG.md](./CHANGELOG.md).
 
+## 2026-11-07
+
+### Fork maintenance
+
+- Restored upstream's descriptions for `tdd`, `diagnosing-bugs`, `code-review`, `codebase-design`, `domain-modeling`, `research` and `wizard`. The 2026-10-12 entry wrongly said these were unchanged: commit `86a9af5` had narrowed them, which dropped triggers such as "reports something broken" and "fix bugs test-first".
+- Added `scripts/check-fork.sh`: plugin manifest, README and docs coverage, `ask-matt` routes for promoted and personal skills, relative links, em-dashes, and pstack name collisions.
+- `CLAUDE.md` gains an "Upstream sync" procedure (merge, rerere, pstack sync, check, changelog) and drops the stale GPT Pro note from `personal/`.
+- `.scratch/` is ignored.
+
+### Paseo skills moved to `personal/`
+
+- `paseo-artifacts` and `paseo-artifact` moved from `in-progress/` to `personal/`: they need Paseo, and the in-progress install command pointed at upstream, which lacks them.
+- `paseo-artifact` renamed to `paseo-summary`, matching its `kind: summary` and no longer one letter away from `paseo-artifacts`. Fixed the broken inline code in `paseo-artifacts` step 1.
+
+### `state-modeling`
+
+- Charts are sized to the change: the reference drops the full checklist and completion list, and the risks step covers only edges the change can reach.
+- Added guards (`[amount <= limit]`) to transitions and `[*]` terminal markers to the Mermaid example.
+- Recommends pstack's user-invoked `statechart` model check when event interleavings decide correctness, without authorizing tool installs.
+
+### `telegram-message`
+
+- The length check counts UTF-16 code units, as Telegram does, so emoji-heavy messages no longer pass locally and fail remotely.
+
+## 2026-11-06
+
+### `ask-matt` routes into pstack
+
+- Added a flow choice table and `ask-matt/PSTACK.md`, which maps entry points, overlaps (`tdd`/`pstack-tdd`, `teach`/`pstack-teach`, review, design, state) and Pi runtime limits, and defers the full catalogue to `poteto-help`.
+
+## 2026-11-04
+
+### Vendored pstack for Pi
+
+- Added `vendor/pstack/` from `cursor/plugins` (`harness/pstack/claude-code`) with a Pi adapter, and `scripts/sync-pstack.sh`, which renames colliding skills and rewrites commands. `link-skills.sh` links the vendored skills.
+- The sync defaults to the commit pinned in `vendor/pstack/UPSTREAM` and drops the `statechart` test corpora the runtime never loads (2026-11-07).
+
+### Added Paseo artifact skills
+
+- Added `paseo-artifacts` (model-invoked, registers files in the Artifacts collection) and `paseo-artifact` (user-invoked, writes a goal's summary Artifact).
+
 ## 2026-10-12
 
 ### Removed the Paseo picker field
 
 - Removed `metadata.paseo` from every `SKILL.md`, dropping empty `metadata` blocks and preserving other metadata.
 - Removed the picker-line requirement from `CLAUDE.md` (also linked as `AGENTS.md`) and the picker-line vocabulary from `GLOSSARY.md`.
-- Skill descriptions and behavior are unchanged by this removal.
+- Skill behavior is unchanged by this removal. (Correction, 2026-11-07: commit `86a9af5` also narrowed seven skill descriptions; see that entry.)
 
 ## 2026-10-09
 
