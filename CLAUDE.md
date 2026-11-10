@@ -31,17 +31,17 @@ Every skill that dispatches a subagent says to start it with a fresh context win
 
 ### Vendored pstack
 
-`vendor/pstack/` is upstream pstack's Claude Code tree (`cursor/plugins`, `harness/pstack/claude-code`), adapted for Pi. Sync it by hand, in the same session as every `upstream` (mattpocock/skills) sync:
+`vendor/pstack/` is upstream pstack's Claude Code tree (`cursor/plugins`, `harness/pstack/claude-code`), adapted for DeepSeek Harness (DSH) and Pi. Sync it by hand, in the same session as every `upstream` (mattpocock/skills) sync:
 
-1. Run `scripts/sync-pstack.sh`. It replaces `vendor/pstack/`, keeps `docs/harness/pi.md`, renames colliding skills (`tdd` to `pstack-tdd`, `teach` to `pstack-teach`), rewrites `/pstack:<name>` to `/skill:<name>`, and points every skill at the Pi adapter instead of the Claude Code one.
+1. Run `scripts/sync-pstack.sh`. It replaces `vendor/pstack/`, keeps the fork-owned adapters `docs/harness/dsh.md` and `docs/harness/pi.md`, renames colliding skills (`tdd` to `pstack-tdd`, `teach` to `pstack-teach`), rewrites `/pstack:<name>` to `/skill:<name>`, and points every skill at both fork adapters instead of the Claude Code one.
 2. Run `scripts/check-fork.sh`; it checks the name collisions and leftover Claude Code openers below, plus the bucket rules above. Then review `git diff vendor/pstack`. Check that:
    - no skill still opens with "In Claude Code, read the Claude Code adapter" (`rg -l 'In Claude Code, read \[the Claude Code adapter' vendor/pstack/skills` prints nothing; `poteto-help` mentions the adapter in its install notes, which is fine);
    - no new skill name collides with one under `skills/` (compare `ls vendor/pstack/skills` with this repo's skill names). Add any collision to `RENAMES` in the script and re-run;
-   - `docs/harness/pi.md` still covers every row of `docs/harness/claude-code.md`. When upstream adds a Cursor name, tool, or field, add the matching Pi row by hand.
+   - `docs/harness/dsh.md` and `docs/harness/pi.md` each still cover every row of `docs/harness/claude-code.md`. When upstream adds a Cursor name, tool, or field, add the matching DSH and Pi rows by hand.
 3. Edit vendored files by hand only for adaptations the script cannot express, and move each repeatable one into the script so the next sync keeps it.
 4. If pstack content changes, complete the related integration updates in the same session. Replacing `vendor/pstack/` alone does not complete the sync:
-   - Read the changed skills, playbooks, and guide pages. Check them against `poteto-help`, `poteto-mode`, and the Pi adapter. Update `skills/engineering/ask-matt/SKILL.md` and `skills/engineering/ask-matt/PSTACK.md` wherever entry points, names, behaviour, overlaps, or runtime limits have changed.
-   - Re-sync `docs/engineering/ask-matt.md` when its routing advice changes. Update the README summaries and `ask-matt/agents/openai.yaml` when their descriptions are affected. Keep the Pi adapter and sync-script rewrites aligned as required by steps 2 and 3.
+   - Read the changed skills, playbooks, and guide pages. Check them against `poteto-help`, `poteto-mode`, and both fork adapters. Update `skills/engineering/ask-matt/SKILL.md` and `skills/engineering/ask-matt/PSTACK.md` wherever entry points, names, behaviour, overlaps, or runtime limits have changed.
+   - Re-sync `docs/engineering/ask-matt.md` when its routing advice changes. Update the README summaries and `ask-matt/agents/openai.yaml` when their descriptions are affected. Keep the fork adapters and sync-script rewrites aligned as required by steps 2 and 3.
    - Report what changed and which related files were updated. If no related edit is needed, explain why the existing routing, docs, and adapter still apply.
 
 If only the source commit or version in `vendor/pstack/UPSTREAM` changes and the content is identical, report a metadata-only sync; do not force unrelated edits.

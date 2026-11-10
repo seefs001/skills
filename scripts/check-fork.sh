@@ -64,6 +64,12 @@ if [ -d vendor/pstack/skills ]; then
   rg -l 'In Claude Code, read \[the Claude Code adapter' vendor/pstack/skills >/tmp/check-fork-cc.$$ &&
     while read -r f; do err "unadapted Claude Code opener in $f"; done </tmp/check-fork-cc.$$
   rm -f /tmp/check-fork-cc.$$
+  for a in dsh pi; do [ -f "vendor/pstack/docs/harness/$a.md" ] || err "vendor/pstack/docs/harness/$a.md missing"; done
+  for s in vendor/pstack/skills/*/SKILL.md; do
+    grep -q 'harness adapter' "$s" || continue
+    grep -q 'docs/harness/dsh\.md' "$s" || err "$s opener does not link the DSH adapter"
+    grep -q 'docs/harness/pi\.md' "$s" || err "$s opener does not link the Pi adapter"
+  done
 fi
 
 [ "$fail" = 0 ] && echo "fork invariants ok"

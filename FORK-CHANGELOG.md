@@ -6,6 +6,14 @@ keeping Seefs-specific changes separate from the upstream release history.
 Use this file for fork-only notes. The upstream package changelog remains in
 [CHANGELOG.md](./CHANGELOG.md).
 
+## 2026-11-10
+
+### pstack adapted for DeepSeek Harness
+
+- Added the fork-owned `vendor/pstack/docs/harness/dsh.md` adapter: `Task` maps to `subagent` (fresh context, explicit delegation only), `AskQuestion` to `ask_user_question`, todolists to `todo_write`, `/loop` to `create_goal`, `resume` to `send_message`, and cloud workers to a git worktree passed as `cwd`. Per-role models map through `list_subagent_models`, so `setup-pstack` writes `~/.dsh/pstack-models.md` in DSH.
+- Every pstack skill opener now links both the DSH and Pi adapters. `scripts/sync-pstack.sh` keeps both adapters across a sync and writes the new opener; `scripts/check-fork.sh` fails when an adapter or an opener link is missing.
+- `ask-matt` (`SKILL.md`, `PSTACK.md`, docs page) and `state-modeling` name the DSH command syntax `/<name>` next to Pi's `/skill:<name>`.
+
 ## 2026-11-07
 
 ### Fork maintenance

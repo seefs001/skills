@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 You don't remember every skill, so ask.
 
-Recommend the next skill or flow and stop. Reading its instructions to check a recommendation does not mean running them. Give the next command in the current harness's syntax; in Pi, use `/skill:<name>`.
+Recommend the next skill or flow and stop. Reading its instructions to check a recommendation does not mean running them. Give the next command in the current harness's syntax; in DeepSeek Harness, use `/<name>`; in Pi, use `/skill:<name>`.
 
 Before stating what a skill does or recommending a step be skipped, read that skill's SKILL.md: the summaries here are for orientation only.
 

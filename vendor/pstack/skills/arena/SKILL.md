@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Arena
 
-Read [the Pi adapter](../../docs/harness/pi.md) once per session before you follow this skill. It maps the Cursor names in pstack skills to Pi.
+Read your harness adapter once per session before you follow this skill: [DeepSeek Harness](../../docs/harness/dsh.md) or [Pi](../../docs/harness/pi.md). It maps the Cursor names in pstack skills to that harness.
 
 Open a todolist with one entry per phase (Frame, Fan out, Cross-judge, Pick, Graft, Verify) before launching anything.
 

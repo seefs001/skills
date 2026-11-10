@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Reflect
 
-Read [the Pi adapter](../../docs/harness/pi.md) once per session before you follow this skill. It maps the Cursor names in pstack skills to Pi.
+Read your harness adapter once per session before you follow this skill: [DeepSeek Harness](../../docs/harness/dsh.md) or [Pi](../../docs/harness/pi.md). It maps the Cursor names in pstack skills to that harness.
 
 Mine the current conversation for durable learnings, then route them into skill edits.
 

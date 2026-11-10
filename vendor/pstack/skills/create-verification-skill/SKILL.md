@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Create a verification skill
 
-Read [the Pi adapter](../../docs/harness/pi.md) once per session before you follow this skill. It maps the Cursor names in pstack skills to Pi.
+Read your harness adapter once per session before you follow this skill: [DeepSeek Harness](../../docs/harness/dsh.md) or [Pi](../../docs/harness/pi.md). It maps the Cursor names in pstack skills to that harness.
 
 Every serious project needs a scripted way to drive the real app and prove behavior: launch it, exercise a feature the way a user would, and capture evidence. This skill generates that as a project-local skill (`.cursor/skills/verify-<app>/`) tailored to the repo. You write the generator's output for the next agent, not for a human: it will be read cold, mid-task, by an agent that has never seen the app.
 

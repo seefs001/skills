@@ -26,7 +26,7 @@ Do not write stateful implementation until the chart can be tested through the a
 
 pstack's `statechart` writes a TLA+ model, checks it with TLC, and reports the shortest path to each state that breaks a rule. It checks the model and generates its chart from it, so it is more than drawing a diagram, and it earns its cost only when a hand-written chart cannot settle whether some ordering of events breaks an invariant.
 
-It is user-invoked and optional: it ships with pstack, not with this skill, and its first run may need to install TLC and Java over the network when they are missing. Choosing it does not authorize that install: tool installs still follow the user's permission and approval rules. So recommend it and let the user choose: tell the user to run `/statechart` (`/skill:statechart` in Pi), naming the invariants and event orderings worth checking. If the skill is not installed, say so and continue with the hand-written chart.
+It is user-invoked and optional: it ships with pstack, not with this skill, and its first run may need to install TLC and Java over the network when they are missing. Choosing it does not authorize that install: tool installs still follow the user's permission and approval rules. So recommend it and let the user choose: tell the user to run `/statechart` (`/skill:statechart` in Pi; DeepSeek Harness takes `/statechart` as written), naming the invariants and event orderings worth checking. If the skill is not installed, say so and continue with the hand-written chart.
 
 When the user runs it, read its report with two limits in mind:
 

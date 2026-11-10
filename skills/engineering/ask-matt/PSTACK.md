@@ -2,16 +2,23 @@
 
 This branch connects the repo's main flow to its locally linked pstack skills. It keeps the cross-family choices here and leaves the full pstack catalogue with [poteto-help](../../../vendor/pstack/skills/poteto-help/SKILL.md). The [poteto-mode skill](../../../vendor/pstack/skills/poteto-mode/SKILL.md) owns playbook selection and steps. Read the source for the selected route before making a recommendation; reading it does not start a workflow.
 
-## Availability and Pi
+## Availability, DeepSeek Harness, and Pi
 
 pstack is vendored under `vendor/pstack/` and linked locally by [link-skills.sh](../../../scripts/link-skills.sh). It is not part of this repo's promoted Claude Code plugin. Resolve these links from this file's real directory; if this installation lacks the vendored tree, check the installed skill directories before calling a skill unavailable. User-invoked skills can be installed without appearing in the model's injected skill list.
 
-In Pi, read the [Pi adapter](../../../vendor/pstack/docs/harness/pi.md) before describing pstack's execution capabilities. Name commands as `/skill:<name>`. In particular:
+Before describing pstack's execution capabilities, read the adapter for the current harness: the [DeepSeek Harness adapter](../../../vendor/pstack/docs/harness/dsh.md) or the [Pi adapter](../../../vendor/pstack/docs/harness/pi.md). In both:
 
 - The local names are `pstack-tdd` and `pstack-teach`; `tdd` and `teach` still mean this repo's skills.
-- The adapter uses the session model, not pstack's per-role model selection. `setup-pstack` is not a prerequisite for choosing a route in Pi.
-- Subagents require an explicit request to delegate. Without it, the current agent does the briefs itself; with it, workers run through Paseo with fresh context windows. Do not promise independent multi-model review from a single-agent run.
+- Subagents require an explicit request to delegate. Without it, the current agent does the briefs itself on the session model. Do not promise independent multi-model review from a single-agent run.
 - Cursor-only steps follow the adapter's skip rules. A route does not authorize Git writes, external writes, global configuration changes, or new tests; apply the user's rules before executing any skill.
+
+They differ here:
+
+| | DeepSeek Harness | Pi |
+| --- | --- | --- |
+| Command syntax | `/<name>` | `/skill:<name>` |
+| Delegated workers | `subagent` with a fresh context window | Paseo agents with fresh context windows |
+| Per-role models | `subagent` takes a provider, model, and effort, so `setup-pstack` can write `~/.dsh/pstack-models.md`. It is optional for choosing a route. | None: every step runs on the session model, and `setup-pstack` is not a prerequisite. |
 
 ## Choose an entry
 

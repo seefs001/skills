@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Interrogate
 
-Read [the Pi adapter](../../docs/harness/pi.md) once per session before you follow this skill. It maps the Cursor names in pstack skills to Pi.
+Read your harness adapter once per session before you follow this skill: [DeepSeek Harness](../../docs/harness/dsh.md) or [Pi](../../docs/harness/pi.md). It maps the Cursor names in pstack skills to that harness.
 
 Adversaries try to break a change or a design. A finding survives only when a run proves it. Report the findings. Do not apply fixes.
 

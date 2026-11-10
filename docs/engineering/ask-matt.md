@@ -46,7 +46,7 @@ The skill's leading word is **flow**, a path *through* the skills rather than a 
 
 The router keeps the flow you already chose unless the requested deliverable calls for a different one. A settled spec can feed pstack, but `implement` and `poteto-mode` are alternative drivers, not two required phases of the same build.
 
-In Pi, recommendations use `/skill:<name>` and the local names `pstack-tdd` and `pstack-teach`. The [Pi adapter](https://github.com/seefs001/skills/blob/main/vendor/pstack/docs/harness/pi.md) defines the limits: the session's [model](https://www.aihero.dev/ai-coding-dictionary/model) replaces per-role model selection, [subagents](https://www.aihero.dev/ai-coding-dictionary/subagent) need an explicit delegation request, and Cursor-only steps may be skipped. Choosing pstack does not grant permission to commit, publish or add tests.
+pstack recommendations use the local names `pstack-tdd` and `pstack-teach`, typed as `/<name>` in DeepSeek Harness and `/skill:<name>` in Pi. Each harness has an adapter that defines its limits: the [DeepSeek Harness adapter](https://github.com/seefs001/skills/blob/main/vendor/pstack/docs/harness/dsh.md) and the [Pi adapter](https://github.com/seefs001/skills/blob/main/vendor/pstack/docs/harness/pi.md). In both, [subagents](https://www.aihero.dev/ai-coding-dictionary/subagent) need an explicit delegation request and Cursor-only steps may be skipped. DeepSeek Harness can route each subagent to its own [model](https://www.aihero.dev/ai-coding-dictionary/model); Pi runs everything on the session's model. Choosing pstack does not grant permission to commit, publish or add tests.
 
 ## The phase boundary
 

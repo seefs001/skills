@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Poteto help
 
-Read [the Pi adapter](../../docs/harness/pi.md) once per session before you follow this skill. It maps the Cursor names in pstack skills to Pi.
+Read your harness adapter once per session before you follow this skill: [DeepSeek Harness](../../docs/harness/dsh.md) or [Pi](../../docs/harness/pi.md). It maps the Cursor names in pstack skills to that harness.
 
 Answer the user's question about pstack, hand them a prompt they can send, and link the file the answer came from. For a help question, don't start the work. The user asked how, and a pstack run spends real tokens, so let them send the prompt.
 
