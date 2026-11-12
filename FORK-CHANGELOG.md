@@ -6,6 +6,15 @@ keeping Seefs-specific changes separate from the upstream release history.
 Use this file for fork-only notes. The upstream package changelog remains in
 [CHANGELOG.md](./CHANGELOG.md).
 
+## 2026-11-13
+
+### Upstream sync
+
+- Merged `upstream/main` at `5863806`: the software-factory vocabulary distinguishes tasks from CI jobs and workflows, and Explore tasks leave evidence on the ticket without pushing.
+- Synced pstack from `cursor/plugins` main at `a5539b15a3d56e04992565aafee2b37051329ce3`. This is a metadata-only sync: the vendored content is unchanged and the version remains `0.15.36`.
+- Existing `ask-matt` routing, docs, README summaries, and DSH/Pi adapters still apply because pstack's entry points, behaviour, and harness contract did not change. No skill links changed.
+- Kept the fork's quoted `software-factory` description: its colon needs quoting for valid YAML. This parser fix remains suitable for upstream; no additional fork edits to upstream-owned files were needed.
+
 ## 2026-11-10
 
 ### pstack adapted for DeepSeek Harness
