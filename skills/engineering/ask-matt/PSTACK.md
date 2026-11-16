@@ -20,12 +20,16 @@ They differ here:
 | Delegated workers | `subagent` with a fresh context window | Paseo agents with fresh context windows |
 | Per-role models | `subagent` takes a provider, model, and effort, so `setup-pstack` can write `~/.dsh/pstack-models.md`. It is optional for choosing a route. | None: every step runs on the session model, and `setup-pstack` is not a prerequisite. |
 
+Arena's cross-judge needs a model from another vendor, not merely another family: Fable and the other Claude models are one vendor. A DSH seat that falls back to the session model uses that model's actual family and vendor. Pi cannot supply an independent cross-vendor judge on its single session model. Read `setup-pstack` for the current defaults and old-rule migration; a sync does not rewrite the user's model rule.
+
 ## Choose an entry
 
 | The user needs | Recommend |
 | --- | --- |
 | A concrete task driven by a playbook, with a goal and an observable completion check | [poteto-mode](../../../vendor/pstack/skills/poteto-mode/SKILL.md). It selects the playbook; do not copy its steps into this router or prepend the whole spec-and-issues flow. |
 | Help with pstack setup, cost, playbooks, or a run that went wrong | [poteto-help](../../../vendor/pstack/skills/poteto-help/SKILL.md). If the current question is already specific, read its relevant sources and answer now instead of sending the user through another router just to repeat the question. |
+| A walkthrough of how existing code works | [how](../../../vendor/pstack/skills/how/SKILL.md). It uses one read-only exploration-and-explanation brief, not a multi-explorer pipeline. |
+| The recorded reason for a design or later change | [why](../../../vendor/pstack/skills/why/SKILL.md). It starts with the introducing commits and PR discussions and their later changes, then uses other sources if that trail is thin. It no longer launches a per-source investigator panel. |
 | One focused capability rather than a whole execution flow | Use the overlap table below, or consult poteto-help's **Pick a skill** table and read the selected skill. |
 
 The main flow remains the route for an interview, durable domain decisions, and work organised as a spec and issues. When the user explicitly chooses pstack to execute a settled issue or spec, carry that artifact and its acceptance criteria into the prompt. `implement` and `poteto-mode` are alternative drivers for that task, not mandatory consecutive steps.
@@ -43,7 +47,7 @@ These are choices by deliverable, not aliases. Follow each link before describin
 | Stateful behaviour | [state-modeling](../state-modeling/SKILL.md) defines the smallest chart for the change within the current flow, and recommends `statechart` when event interleavings decide correctness. | [statechart](../../../vendor/pstack/skills/statechart/SKILL.md) runs a TLA+ model and produces a chart with paths to rule violations. It is not a synonym for drawing a state diagram, and its first run can require tool installation. |
 | Reusable evidence from the real app | Existing project verification commands remain the first choice. | [create-verification-skill](../../../vendor/pstack/skills/create-verification-skill/SKILL.md) builds a project-local skill for launching, driving and observing the app when that reusable workflow is missing. |
 
-For the rest of pstack, including `how`, `why`, `recall`, `ketchup`, `arena`, `swarm`, `reflect`, writing skills and `principle-*`, use poteto-help's map rather than maintaining another catalogue here. Playbooks belong to `poteto-mode`; they are not separate slash commands.
+For the rest of pstack, including `recall`, `ketchup`, `arena`, `swarm`, `reflect`, writing skills and `principle-*`, use poteto-help's map rather than maintaining another catalogue here. Playbooks belong to `poteto-mode`; they are not separate slash commands.
 
 ## Recommendation
 

@@ -31,7 +31,7 @@ These apply only when a worker runs through Paseo. When you do the work yourself
 
 ## Models
 
-Pi runs every step on the session model. Drop every `model` slug, effort suffix, and `-fast`. Skip reading `pstack-models.mdc` or `pstack-models.md`. When a skill picks a model for a role, say once that the session model is used.
+Pi runs every step on the session model. Drop every `model` slug, effort suffix, and `-fast`. Skip reading `pstack-models.mdc` or `pstack-models.md`. When a skill picks a model for a role, say once that the session model is used. The Fable, Opus, and Gemini defaults do not change that limit. Arena requires a cross-judge from another vendor, which the single session model cannot supply: skip that judge, pick the base as arena prescribes, and say so. Multiple briefs on the same model do not provide model-family or vendor diversity.
 
 ## setup-pstack
 

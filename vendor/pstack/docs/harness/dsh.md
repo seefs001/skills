@@ -42,8 +42,11 @@ DSH routes each `subagent` with `provider`, `model`, and `reasoning_effort`. `li
 
 | Cursor | DSH |
 | --- | --- |
-| `claude-<family>-<version>-<effort>[-fast]`, such as `claude-opus-5-5-xhigh` | When `list_subagent_models` offers a model id equal to the slug without its effort and `-fast` (here `claude-opus-5-5`), pass its `provider`, that `model`, and `reasoning_effort: "xhigh"`. Drop `-fast`. If that effort is not listed, use the highest listed effort below it. |
-| A `grok-*`, `gpt-*`, or other slug with no matching model id | Omit `provider`, `model`, and `reasoning_effort` so the worker runs on the session model, and say so. |
+| Any `<base>-<effort>[-fast]` slug, such as `claude-opus-5-5-xhigh` or `grok-4.7-xhigh-fast` | Strip `-fast` and the effort to get the base (`claude-opus-5-5`, `grok-4.7`). When `list_subagent_models` offers a model id equal to the base, pass its `provider`, that `model`, and the effort as `reasoning_effort`. If that effort is not listed, use the highest listed effort below it. |
+| The `-fast` suffix | poteto-mode's Subagents section decides fast or standard speed; this row only maps the result. Fast is the model id `<base>-build-fast` when it is listed (`grok-4.7-build-fast`); otherwise drop `-fast`. Standard is `<base>` (`grok-4.7`), so a role value naming `<base>-build-fast` runs at standard speed on `<base>`. |
+| A slug whose base matches no listed model id | Omit `provider`, `model`, and `reasoning_effort` so the worker runs on the session model, and say so. |
+| A model family (diverse panels, same-family fallback) | Drop a leading `cursor-` from the model id and use the longest matching prefix: `claude-fable-*`, `claude-*`, or `gemini-*`. For any other id, use the text before its first hyphen. Fable is its own family. A seat that falls back to the session model belongs to that model's actual family, so it never counts as a second family. |
+| A model vendor (arena cross-judge) | Use the family above, except `claude-fable-*` and `claude-*` are one vendor. A judge must run on a vendor other than the parent's. A fallback to the session model cannot satisfy that check; when no other vendor is available, skip the judge as arena prescribes. |
 | `auto` or `inherit-parent` | Omit `provider` and `model`. |
 | The `pstack-models.mdc` rule, `~/.cursor/rules/pstack-models.mdc` | `~/.dsh/pstack-models.md`. DSH does not load it into context, so read it before the first spawn that picks a model. If the file or the role's line is missing, use the skill's default slug, mapped with the rows above. |
 | A role value `<provider>/<model> <effort>`, such as `messages/claude-opus-5-5 high` | `provider: "messages"`, `model: "claude-opus-5-5"`, `reasoning_effort: "high"`. |
@@ -55,9 +58,10 @@ A model choice only matters once a worker exists. When you do a subagent's work 
 DSH has per-subagent model routing, so `setup-pstack` works. Follow its steps with these changes:
 
 - Detect. Call `list_subagent_models` for each provider and each model. Write a real model as `<provider>/<model> <effort>`, such as `messages/claude-opus-5-5 xhigh`. The effort is the last token, so the budget step works as written.
-- Defaults. Map each default slug with the Models rows: `claude-opus-5-5-xhigh` is `messages/claude-opus-5-5 xhigh` when that model is listed, and a slug with no matching model, such as `grok-4.7-xhigh-fast`, is `inherit-parent`.
+- Load current state. Apply the skill's retired-role cleanup and `# defaults: 2` migration to the local rule. For a value `<provider>/<model> <effort>`, match the migration's old-slug and family patterns against `<model>`, not the provider prefix. Preserve the skill's explicit-choice exceptions and report replacements. A sync alone never rewrites this rule.
+- Defaults. Map each default slug with the Models rows: `claude-opus-5-5-xhigh` is `messages/claude-opus-5-5 xhigh` and `grok-4.7-xhigh-fast` is `responses/grok-4.7-build-fast xhigh` when those models are listed. Map the new defaults `claude-fable-5-2-max` and `gemini-4-carbon-high` by their bases too (`claude-fable-5-2`, `gemini-4-carbon`), using only listed providers, models, and efforts. A slug whose base matches no listed model is `inherit-parent`.
 - Ask. Use `ask_user_question` for the budget and the role confirmation.
-- Write. Write `~/.dsh/pstack-models.md` with no frontmatter, then the comment lines, the `# budget` line, and one line per role from step 5. Overwrite the whole file. Never put the role lines in `AGENTS.md`. The file is outside every repo, and writing it is the step the user asked for, so it needs no further confirmation.
+- Write. Write `~/.dsh/pstack-models.md` with no frontmatter, then the comment lines (including `# defaults: 2`), the `# budget` line, and one line per role from step 5. Overwrite the whole file. Never put the role lines in `AGENTS.md`. The file is outside every repo, and writing it is the step the user asked for, so it needs no further confirmation.
 - Confirm. The rule applies to the next spawn that reads it, in this session or a new one.
 
 ## Paths

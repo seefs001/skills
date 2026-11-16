@@ -40,13 +40,15 @@ The skill's leading word is **flow**, a path *through* the skills rather than a 
 | --- | --- |
 | Clarify an idea, preserve domain decisions, or work through a spec and issues | The main flow above |
 | Give a concrete task to a playbook that selects its own steps and verification | [poteto-mode](https://github.com/seefs001/skills/blob/main/vendor/pstack/skills/poteto-mode/SKILL.md) |
-| Understand an existing change or subsystem | `pstack-teach`, rather than the multi-session learning workspace that `teach` creates |
+| Understand how existing code works | pstack's `how`, one read-only exploration-and-explanation brief |
+| Recover why a design was chosen or changed | pstack's `why`, starting from the commits and PR discussions rather than inferring intent from the code |
+| Learn both how an existing change works and why it has that shape | `pstack-teach`, rather than the multi-session learning workspace that `teach` creates |
 | Pin down a lifecycle or check event interleavings | `state-modeling` for an ordinary lifecycle; when concurrent, retried, or late events decide correctness, run pstack's `statechart` explicitly to model-check it |
 | Check standards and spec coverage | `code-review`; use pstack's `interrogate` for demonstrated failures, or `blast-radius` for consequences outside the diff |
 
 The router keeps the flow you already chose unless the requested deliverable calls for a different one. A settled spec can feed pstack, but `implement` and `poteto-mode` are alternative drivers, not two required phases of the same build.
 
-pstack recommendations use the local names `pstack-tdd` and `pstack-teach`, typed as `/<name>` in DeepSeek Harness and `/skill:<name>` in Pi. Each harness has an adapter that defines its limits: the [DeepSeek Harness adapter](https://github.com/seefs001/skills/blob/main/vendor/pstack/docs/harness/dsh.md) and the [Pi adapter](https://github.com/seefs001/skills/blob/main/vendor/pstack/docs/harness/pi.md). In both, [subagents](https://www.aihero.dev/ai-coding-dictionary/subagent) need an explicit delegation request and Cursor-only steps may be skipped. DeepSeek Harness can route each subagent to its own [model](https://www.aihero.dev/ai-coding-dictionary/model); Pi runs everything on the session's model. Choosing pstack does not grant permission to commit, publish or add tests.
+pstack recommendations use the local names `pstack-tdd` and `pstack-teach`, typed as `/<name>` in DeepSeek Harness and `/skill:<name>` in Pi. Each harness has an adapter that defines its limits: the [DeepSeek Harness adapter](https://github.com/seefs001/skills/blob/main/vendor/pstack/docs/harness/dsh.md) and the [Pi adapter](https://github.com/seefs001/skills/blob/main/vendor/pstack/docs/harness/pi.md). In both, [subagents](https://www.aihero.dev/ai-coding-dictionary/subagent) need an explicit delegation request and Cursor-only steps may be skipped. DeepSeek Harness can route each subagent to its own [model](https://www.aihero.dev/ai-coding-dictionary/model); Pi runs everything on the session's model. Arena's independent cross-judge requires another vendor, so Fable and the other Claude models do not qualify as two vendors, and Pi's single-model run skips that judge. A pstack sync does not rewrite your model rule; rerun `setup-pstack` in DSH to review its default migration. Choosing pstack does not grant permission to commit, publish or add tests.
 
 ## The phase boundary
 

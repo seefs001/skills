@@ -20,7 +20,7 @@ A **flow** is a path through the skills. The **main flow** below follows an idea
 | --- | --- |
 | Clarify an idea, preserve decisions, or build through a spec and issues | The main flow below, or its on-ramps |
 | Use pstack, or let a playbook drive a concrete task from goal to verification | Read [PSTACK.md](PSTACK.md) for the pstack branch |
-| Explain an existing subsystem, probe breakage beyond a diff, or create a reusable app-verification skill | Read [PSTACK.md](PSTACK.md) for pstack's specialist routes |
+| Explain an existing subsystem, recover the recorded reasons for its design, probe breakage beyond a diff, or create a reusable app-verification skill | Read [PSTACK.md](PSTACK.md) for pstack's specialist routes |
 | Compare a pstack skill with a skill below, including the two TDD or teaching skills | Read [PSTACK.md](PSTACK.md) for the overlap boundaries |
 
 Respect a flow the user already chose. When both fit, keep the active flow, or use the main flow below if none is active. A settled spec can be input to pstack, but recommend one execution flow at a time rather than stacking both around the same task.

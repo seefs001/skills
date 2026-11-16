@@ -6,6 +6,16 @@ keeping Seefs-specific changes separate from the upstream release history.
 Use this file for fork-only notes. The upstream package changelog remains in
 [CHANGELOG.md](./CHANGELOG.md).
 
+## 2026-11-17
+
+### Upstream and pstack sync
+
+- Fetched `upstream/main`; it remains at `5863806`, already contained in local `main`, so no merge was needed.
+- Synced pstack from `cursor/plugins` main at `bf0c7cd80abdbf7fe47b634978a7d1b4071f71a7`, upgrading `0.15.36` to `0.15.42`. `how` now uses one read-only exploration-and-explanation brief; `why` reads the introducing commits, PR discussions, and later changes before consulting other sources. Their old reference pipelines are removed, and playbooks trace code directly instead of routing through `how`.
+- Default code roles now use Opus 5.5, the hardest tasks use Fable 5.2, and panels use Fable, Opus, and Gemini 4 Carbon. Setup recognizes old default pins and drops retired roles. Arena distinguishes model families from vendors and requires a judge from another vendor. Statechart improves nested Mermaid entries and reports SANY parse errors more clearly; `sharpen` asks for experiments to settle observable choices.
+- Updated `ask-matt/SKILL.md`, `ask-matt/PSTACK.md`, and `docs/engineering/ask-matt.md` for the explanation/history routes, model-rule migration, and cross-vendor judge limit. The DSH adapter maps Fable families, vendor checks, and provider-qualified old rules; the Pi adapter explicitly skips a cross-vendor judge on its single session model. Existing local adapter and checker edits are retained. No global model rule was changed.
+- README summaries and `ask-matt/agents/openai.yaml` still describe the same router scope, so they need no edit. Skill names and install paths are unchanged, so no relink is needed. The existing sync-script rewrites still apply. The new edits to upstream-owned router files remain fork-specific because they refer to the local vendored tree and its harness adapters.
+
 ## 2026-11-13
 
 ### Upstream sync
