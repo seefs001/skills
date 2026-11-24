@@ -8,7 +8,6 @@ The plugin won't give you these. Install one directly:
 npx skills@latest add mattpocock/skills --skill=<name>
 ```
 
-- **[chief-of-staff](./chief-of-staff/SKILL.md)**: Pursue a long-running goal in one session by coordinating subagents and suggesting recurring schedules. User-invoked.
 - **[loop-me](./loop-me/SKILL.md)**: Grill yourself into implementable workflow specs over multiple sessions, using the current directory as a stateful workspace. User-invoked.
 - **[writing-beats](./writing-beats/SKILL.md)**: Shape an article as a journey of beats, choose-your-own-adventure style. Pick a starting beat, write only that beat, then pivot to the next, until the article reaches a natural end.
 - **[writing-fragments](./writing-fragments/SKILL.md)**: Grilling session that mines you for fragments (heterogeneous nuggets of writing) and appends them to a single document as raw material for a future article.
@@ -16,3 +15,4 @@ npx skills@latest add mattpocock/skills --skill=<name>
 - **[claude-handoff](./claude-handoff/SKILL.md)**: Hand the current conversation off to a fresh background agent that picks up the work immediately, seeded with a handoff summary via `claude --bg`. User-invoked.
 - **[setup-ts-deep-modules](./setup-ts-deep-modules/SKILL.md)**: Wire dependency-cruiser into a TypeScript repo so each package is a deep module: implementation hidden in subfolders, reachable only through its entry-point files, tests exercising it through those. User-invoked.
 - **[software-factory](./software-factory/SKILL.md)**: Shared language for designing a software factory: the tasks it runs and the services it plugs into. Call it alongside a grilling session. User-invoked.
+- **[chief-of-staff](./chief-of-staff/SKILL.md)**: Delegate the work to fresh subagents and remember what it taught you in a dated wiki, so the next session picks up the thread. User-invoked.
