@@ -39,7 +39,8 @@ The skill's leading word is **flow**, a path *through* the skills rather than a 
 | What you want next | Route |
 | --- | --- |
 | Clarify an idea, preserve domain decisions, or work through a spec and issues | The main flow above |
-| Give a concrete task to a playbook that selects its own steps and verification | [poteto-mode](https://github.com/seefs001/skills/blob/main/vendor/pstack/skills/poteto-mode/SKILL.md) |
+| Give a concrete task to a playbook that selects its own steps and verification | [poteto-mode](https://github.com/seefs001/skills/blob/main/vendor/pstack/skills/poteto-mode/SKILL.md), which routes large or cross-cutting work to `figure-it-out` |
+| Find the expert terms for a problem you can describe but can't name | [reframe](https://github.com/seefs001/skills/blob/main/vendor/pstack/skills/reframe/SKILL.md), which checks real examples and rewrites your description with the terms that fit |
 | Understand how existing code works | pstack's `how`, one read-only exploration-and-explanation brief |
 | Recover why a design was chosen or changed | pstack's `why`, starting from the commits and PR discussions rather than inferring intent from the code |
 | Learn both how an existing change works and why it has that shape | `pstack-teach`, rather than the multi-session learning workspace that `teach` creates |

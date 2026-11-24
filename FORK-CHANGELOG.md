@@ -6,6 +6,13 @@ keeping Seefs-specific changes separate from the upstream release history.
 Use this file for fork-only notes. The upstream package changelog remains in
 [CHANGELOG.md](./CHANGELOG.md).
 
+## 2026-11-24
+
+### pstack sync
+
+- Synced pstack from `cursor/plugins` at `ca782ed8b3c2c521cead8e1720d55c3a5dbf2347`, upgrading `0.15.42` to `0.15.48`. Added `/reframe` to the local pstack routes in `ask-matt` and its docs.
+- Aligned the DeepSeek Harness and Pi adapters with the new worker kickoff and model defaults. Updated routing for `poteto-mode`, `architect`, and `reflect`.
+
 ## 2026-11-17
 
 ### Upstream and pstack sync

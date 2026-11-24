@@ -10,17 +10,17 @@ This file is local to this fork. Upstream ships only `claude-code.md`; keep this
 | --- | --- |
 | `Task`, a subagent | Follow the user's subagent rules (`~/AGENTS.md`). Without an explicit request to delegate, do the subagent's work yourself, one brief at a time, and say so in one line. With the request, start each worker through Paseo (the `paseo` skill) with a fresh context window and paste the brief in. |
 | `AskQuestion` | Ask in plain text in your reply, with numbered options when the skill gives choices. |
-| Open a todolist | Keep the list in your reply and update it at each phase. |
+| Open a todolist, or copy steps into it | Keep the list in your reply and update it at each phase. |
 | Run another pstack skill (`/name` or "the **name** skill") | `read` `<pstack>/skills/<name>/SKILL.md` and follow it. When you tell the user to type it, write `/skill:<name>`. |
 | `Grep`, `Glob`, `Read`, `Edit`, `Write`, `Bash` | `bash` with `rg` and `find`, `read`, `edit`, `write`, `bash`. Batch independent calls with `codemode`. |
 
 ## Subagent fields
 
-These apply only when a worker runs through Paseo. When you do the work yourself, drop them all.
+These apply only when a worker runs through Paseo. When you do the work yourself, drop them all. For a poteto-mode kickoff, keep its `worker.md` first line and include the applicable user rules in the brief. The worker file grants no permissions beyond those rules.
 
 | Cursor | Pi (Paseo worker) |
 | --- | --- |
-| `subagent_type: generalPurpose`, `poteto-agent`, `comment-sicko` | A Paseo agent. For `poteto-agent` and `comment-sicko`, paste `<pstack>/agents/<name>.md` into the brief. |
+| `subagent_type: generalPurpose`, `poteto-agent`, `comment-sicko` | A Paseo agent. For `poteto-agent` and `comment-sicko`, paste `<pstack>/agents/<name>.md` into the brief. Drop the Cursor `model:` header; the worker uses the session model. |
 | `readonly: true` | The brief says "do not edit files". Check `git status` afterward. |
 | `readonly: false` | Omit. |
 | `environment: "cloud"` | A Paseo worktree. Name the branch or commit the worker checks out. |
