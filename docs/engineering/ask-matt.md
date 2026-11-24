@@ -2,7 +2,7 @@
 
 `ask-matt` is the router over the skills in this repo. You describe the situation you are in (an idea you cannot start, a pile of incoming bug reports, a [session](https://www.aihero.dev/ai-coding-dictionary/session) that has run long), and it names the skill or the sequence of skills that fits, plus where the human decisions in that sequence sit.
 
-It recommends and stops. It reads the relevant skill files to check its advice, but does not grill, write a [spec](https://www.aihero.dev/ai-coding-dictionary/spec) or run the skill it just named. What you get back is the next thing to type. The map covers this fork's skills and its locally linked pstack branch, not every skill you happen to have installed.
+It recommends and stops. It reads the relevant skill files to check its advice, but does not grill, write a [spec](https://www.aihero.dev/ai-coding-dictionary/spec) or run the skill it just named. What you get back is the next thing to type. The map covers this fork's skills and its locally linked tools, not every skill you happen to have installed.
 
 ## When to reach for it
 
@@ -18,7 +18,7 @@ You invoke this by typing `/ask-matt` (`/skill:ask-matt` in Pi); the agent won't
 
 ## Prerequisites
 
-The router names skills; it does not install them. Everything it points at has to be installed for the recommendation to be actionable. It knows the promoted skills, explicitly mapped personal and experimental skills, and this fork's locally linked pstack skills. The promoted Claude Code plugin does not include pstack.
+The router names skills; it does not install them. Everything it points at has to be installed for the recommendation to be actionable. It knows the promoted skills, explicitly mapped personal and experimental skills, and this fork's locally linked tools: pstack, [ui-diff](https://github.com/imuratalpay/ui-diff) for before/after screenshots of frontend changes, and [summarize-pr](https://github.com/MeLlamoPablo/skills) for standalone HTML pull request overviews. None of these ship in the Claude Code plugin.
 
 The tracker-dependent routes (triage, `to-spec`, `to-tickets`, `implement`) assume [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) has already configured an issue tracker in the repo. The router recommends them even before that has happened.
 

@@ -9,8 +9,8 @@ set -euo pipefail
 # each agent harness:
 #   - ~/.claude/skills: Claude Code
 #   - ~/.agents/skills: Codex and other Agent Skills-compatible harnesses
-# Each entry is a symlink into this repo, so a `git pull` is all that's needed
-# to keep installed skills up to date.
+# Each entry is a symlink into this repo. Use `git pull --recurse-submodules`
+# to update installed skills, including initialized submodules.
 
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
 DESTS=("$HOME/.claude/skills" "$HOME/.agents/skills")
@@ -30,21 +30,20 @@ while IFS= read -r -d '' skill_md; do
   srcs+=("$src")
 done < <(find "$REPO/skills" -name SKILL.md -not -path '*/node_modules/*' -not -path '*/deprecated/*' -not -path '*/misc/*' -print0)
 
-# Vendored pstack skills (scripts/sync-pstack.sh). A name this repo already
-# owns wins, so the vendored copy is skipped with a note.
-if [ -d "$REPO/vendor/pstack/skills" ]; then
-  for src in "$REPO/vendor/pstack/skills"/*/; do
-    src="${src%/}"
-    [ -f "$src/SKILL.md" ] || continue
-    name="$(basename "$src")"
-    if printf '%s\n' "${names[@]}" | grep -qxF "$name"; then
-      echo "skip pstack/$name: name already used by this repo"
-      continue
-    fi
-    names+=("$name")
-    srcs+=("$src")
-  done
+# Link vendored skills after repo-owned skills so local names win.
+if [ ! -f "$REPO/vendor/ui-diff/skills/ui-diff/SKILL.md" ]; then
+  echo "skip ui-diff: run git submodule update --init -- vendor/ui-diff and re-run this script" >&2
 fi
+for src in "$REPO/vendor/pstack/skills"/* "$REPO/vendor/mellamopablo/skills"/* "$REPO/vendor/ui-diff/skills/ui-diff"; do
+  [ -f "$src/SKILL.md" ] || continue
+  name="$(basename "$src")"
+  if printf '%s\n' "${names[@]}" | grep -qxF "$name"; then
+    echo "skip $src: name already linked"
+    continue
+  fi
+  names+=("$name")
+  srcs+=("$src")
+done
 
 for DEST in "${DESTS[@]}"; do
   # If $DEST is a symlink that resolves into this repo, we'd end up writing the

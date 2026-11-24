@@ -1,0 +1,3 @@
+[submodule "vendor/ui-diff"]
+	path = vendor/ui-diff
+	url = https://github.com/imuratalpay/ui-diff.git

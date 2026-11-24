@@ -13,6 +13,14 @@ Use this file for fork-only notes. The upstream package changelog remains in
 - Synced pstack from `cursor/plugins` at `ca782ed8b3c2c521cead8e1720d55c3a5dbf2347`, upgrading `0.15.42` to `0.15.48`. Added `/reframe` to the local pstack routes in `ask-matt` and its docs.
 - Aligned the DeepSeek Harness and Pi adapters with the new worker kickoff and model defaults. Updated routing for `poteto-mode`, `architect`, and `reflect`.
 
+## 2026-11-23
+
+### Vendored `MeLlamoPablo/skills`
+
+- Added `vendor/mellamopablo/` from [`MeLlamoPablo/skills`](https://github.com/MeLlamoPablo/skills) at commit `55b29eef96f2797acd179b75dfe937806dc25494` (`summarize-pr`), synced manually via `scripts/sync-mellamopablo.sh` with a pinned `vendor/mellamopablo/UPSTREAM` file and excluding upstream's `AGENTS.md`.
+- Updated `scripts/link-skills.sh` to link `vendor/mellamopablo/skills/*` locally, `scripts/check-fork.sh` to check collisions, `UPSTREAM`, and `AGENTS.md` exclusion, and `CLAUDE.md` with the vendoring and sync checklist.
+- Added `/summarize-pr` (local only) to `skills/engineering/ask-matt/SKILL.md` and `docs/engineering/ask-matt.md`.
+
 ## 2026-11-17
 
 ### Upstream and pstack sync

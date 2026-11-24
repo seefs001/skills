@@ -29,6 +29,18 @@ Every skill that dispatches a subagent says to start it with a fresh context win
 
 ## Agent skills
 
+### Vendored ui-diff
+
+`vendor/ui-diff/` is a pinned Git submodule, linked locally and not shipped in the plugin. After cloning or pulling, run `git submodule update --init -- vendor/ui-diff` before `scripts/link-skills.sh`.
+
+### Vendored MeLlamoPablo/skills
+
+`vendor/mellamopablo/` is a vendored copy of [`MeLlamoPablo/skills`](https://github.com/MeLlamoPablo/skills) (currently `summarize-pr`), linked locally and not shipped in the plugin. Sync it by hand, in the same session as every `upstream` (mattpocock/skills) sync:
+
+1. Run `scripts/sync-mellamopablo.sh` (pass `main` to upgrade; no argument re-syncs the commit pinned in `vendor/mellamopablo/UPSTREAM`). It replaces `vendor/mellamopablo/`, drops `.git`, `node_modules`, and upstream's `AGENTS.md` (which carries upstream-only auto-commit instructions), and updates `vendor/mellamopablo/UPSTREAM`.
+2. Run `scripts/check-fork.sh`; it checks for skill name collisions against `skills/` and `vendor/pstack/skills/`, verifies `vendor/mellamopablo/AGENTS.md` is absent, and checks `UPSTREAM`. Review `git diff vendor/mellamopablo`.
+3. If skills or behaviour change, update `skills/engineering/ask-matt/SKILL.md` and `docs/engineering/ask-matt.md`, and re-run `scripts/link-skills.sh` if skill names changed.
+
 ### Vendored pstack
 
 `vendor/pstack/` is upstream pstack's Claude Code tree (`cursor/plugins`, `harness/pstack/claude-code`), adapted for DeepSeek Harness (DSH) and Pi. Sync it by hand, in the same session as every `upstream` (mattpocock/skills) sync:
@@ -50,7 +62,7 @@ Vendored skills sit outside the bucket rules above (no individual README entries
 
 ### Upstream sync
 
-Merge `upstream/main` into `main`; never rebase the published branch. Keep `git config rerere.enabled true` so recurring conflict resolutions replay. After each merge: run the pstack sync above, run `scripts/check-fork.sh`, and add a `FORK-CHANGELOG.md` entry. For each fork edit to an upstream-owned file, ask whether it is still needed or could go upstream; the fewer, the cheaper every merge.
+Merge `upstream/main` into `main`; never rebase the published branch. Keep `git config rerere.enabled true` so recurring conflict resolutions replay. After each merge: run the `pstack` and `MeLlamoPablo/skills` syncs above, run `scripts/check-fork.sh`, and add a `FORK-CHANGELOG.md` entry. For each fork edit to an upstream-owned file, ask whether it is still needed or could go upstream; the fewer, the cheaper every merge.
 
 ### Triage labels
 

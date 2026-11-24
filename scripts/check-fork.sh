@@ -72,5 +72,18 @@ if [ -d vendor/pstack/skills ]; then
   done
 fi
 
+# 8. Vendored MeLlamoPablo/skills: no name collisions, no upstream AGENTS.md, UPSTREAM present.
+if [ -d vendor/mellamopablo/skills ]; then
+  own=$(find skills -name SKILL.md -not -path '*/deprecated/*' | xargs -n1 dirname | xargs -n1 basename | sort)
+  pstack_names=""
+  [ -d vendor/pstack/skills ] && pstack_names=$(ls vendor/pstack/skills | sort)
+  existing=$(printf '%s\n%s\n' "$own" "$pstack_names" | sed '/^$/d' | sort -u)
+  for n in $(comm -12 <(echo "$existing") <(ls vendor/mellamopablo/skills | sort)); do
+    err "mellamopablo skill $n collides with an existing skill"
+  done
+  [ -e vendor/mellamopablo/AGENTS.md ] && err "vendor/mellamopablo/AGENTS.md should be excluded by sync-mellamopablo.sh"
+  [ -f vendor/mellamopablo/UPSTREAM ] || err "vendor/mellamopablo/UPSTREAM missing"
+fi
+
 [ "$fail" = 0 ] && echo "fork invariants ok"
 exit "$fail"
