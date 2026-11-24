@@ -6,6 +6,18 @@ keeping Seefs-specific changes separate from the upstream release history.
 Use this file for fork-only notes. The upstream package changelog remains in
 [CHANGELOG.md](./CHANGELOG.md).
 
+## 2026-11-25
+
+### Upstream and vendored sync
+
+- Committed the pending local `vendor/ui-diff` submodule (`3075b4c8bbbf1a352404829f84f64c26cba291e5`) and `vendor/mellamopablo/` integration before merging.
+- Merged `upstream/main` at `d653911`:
+  - Upstream adopted the quoted description fix in `skills/in-progress/software-factory/SKILL.md` (#1453), eliminating that fork-only diff.
+  - Added upstream's `scripts/check-frontmatter.mjs`, `npm run check-frontmatter`, and `.github/workflows/check.yml` (#1455).
+  - Refocused `skills/in-progress/chief-of-staff/SKILL.md` on delegating work to fresh subagents while keeping conversation in the main session, remembering lessons in a dated wiki, and offering environment or convention fixes only after friction (#1473, #1474). Resolved the merge conflict by keeping this fork's bucket-relative `../../engineering/*/SKILL.md` procedure paths (still needed because `scripts/link-skills.sh` symlinks into bucket subdirectories), removed the duplicate `chief-of-staff` line in `skills/in-progress/README.md`, and updated `ask-matt` and its docs to match.
+- Synced `vendor/pstack/` (`scripts/sync-pstack.sh main`): already at `0.15.48` (`ca782ed8b3c2c521cead8e1720d55c3a5dbf2347`), no content changes. Existing routing, docs, and DSH/Pi adapters still apply.
+- Synced `vendor/mellamopablo/` (`scripts/sync-mellamopablo.sh main`) from `55b29eef96f2797acd179b75dfe937806dc25494` to `72199a8508b019c950c909a5b2a9906d5cfc452c`. `summarize-pr` now checks updates via `scripts/check-update.sh`, treats PR text as untrusted data, clarifies `//!` page comments, and splits line-counting helpers into `scripts/shown-lines.mjs`. Existing `/summarize-pr` routing and docs still apply.
+
 ## 2026-11-24
 
 ### pstack sync

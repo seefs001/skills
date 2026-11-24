@@ -742,7 +742,7 @@ const figures = [...document.querySelectorAll("figure.diff")]
 const PAGE_COMMENT_TITLE = "Not in the code: this comment is only on this page."
 const pageComments = new Set()
 
-// hidden-blocks:start (check.mjs runs this function to count the shown lines)
+// hidden-blocks:start (scripts/shown-lines.mjs has a copy of this code, and check.mjs counts the shown lines with it)
 // Unchanged code between a `//{` line and a `//}` line only gives context to the change. The page hides each such block
 // behind one row, `// ▸ <n> more lines`, until the reader clicks it. Returns the lines as the page shows them first
 // (`collapsed`), the lines with all blocks open (`expanded`), and for each collapsed line its line number in `expanded`.
@@ -800,7 +800,7 @@ function toLines(text) {
 
 const hasHiddenBlocks = figure => toLines(readSide(figure, "new").text).some(line => EXPANDER.test(line.trim()))
 
-// diff-lines:start (check.mjs runs this function to count the shown lines)
+// diff-lines:start (scripts/shown-lines.mjs has a copy of this code, and check.mjs counts the shown lines with it)
 // Line-level LCS diff for the plain view that shows before the diff viewer loads.
 // As in the diff viewer (`ignoreWhitespace`), leading and trailing whitespace does not count. Thus a line that only
 // changes its indentation (for example, code that the PR wraps in a `try`) is an unchanged row, with the new text.

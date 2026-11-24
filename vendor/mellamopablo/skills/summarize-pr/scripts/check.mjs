@@ -5,6 +5,7 @@ import { execFileSync } from "node:child_process"
 import { existsSync, readFileSync } from "node:fs"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
+import { diffLines, EXPANDER, splitHiddenBlocks } from "./shown-lines.mjs"
 
 const BUDGET_RATIO = 0.2
 // Wider lines wrap in the split diff view at common window widths.
@@ -18,7 +19,8 @@ if (!pagePath) {
 }
 
 const html = readFileSync(pagePath, "utf8")
-const template = readFileSync(join(dirname(fileURLToPath(import.meta.url)), "..", "template.html"), "utf8")
+const scriptsDir = dirname(fileURLToPath(import.meta.url))
+const template = readFileSync(join(scriptsDir, "..", "template.html"), "utf8")
 const errors = []
 const warnings = []
 
@@ -130,14 +132,15 @@ if (!Number.isInteger(prAdditions) || !Number.isInteger(prDeletions)) {
 	errors.push("<div class=stats> needs data-pr-additions and data-pr-deletions from GitHub.")
 }
 
-// Run the same diff as the page, so the budget matches the counts in the page header.
-const diffLinesSource = moduleScript?.match(/\/\/ diff-lines:start[^\n]*\n([\s\S]*?)\/\/ diff-lines:end/)?.[1]
-const diffLines = diffLinesSource ? new Function(`${diffLinesSource}\nreturn diffLines`)() : undefined
-// The page shows each hidden block (between `//{` and `//}`) as one row first, so the counts use that row.
-const hiddenBlocksSource = moduleScript?.match(/\/\/ hidden-blocks:start[^\n]*\n([\s\S]*?)\/\/ hidden-blocks:end/)?.[1]
-const { splitHiddenBlocks, EXPANDER } = hiddenBlocksSource
-	? new Function(`${hiddenBlocksSource}\nreturn { splitHiddenBlocks, EXPANDER }`)()
-	: { splitHiddenBlocks: lines => ({ collapsed: lines, expanded: lines }), EXPANDER: /^$/ }
+// shown-lines.mjs has the same diff as the page, so the budget matches the counts in the page header. It also has the
+// code that shows each hidden block (between `//{` and `//}`) as one row first, so the counts use that row.
+const shownLinesSource = readFileSync(join(scriptsDir, "shown-lines.mjs"), "utf8").replace(/^export /gm, "")
+for (const marker of ["diff-lines", "hidden-blocks"]) {
+	const copy = new RegExp(`// ${marker}:start[^\\n]*\\n([\\s\\S]*?)// ${marker}:end`)
+	if (template.match(copy)?.[1] !== shownLinesSource.match(copy)?.[1]) {
+		errors.push(`template.html and scripts/shown-lines.mjs have different code between the ${marker} markers. Make them the same.`)
+	}
+}
 const toLines = text => {
 	const trimmed = text.replace(/^\n/, "").replace(/\s+$/, "")
 	return trimmed === "" ? [] : trimmed.split("\n")
@@ -286,27 +289,25 @@ for (const [, attributes, body] of html.matchAll(/<figure class="diff"([^>]*)>([
 		Object.entries(sides).map(([side, code]) => [side, splitHiddenBlocks(toLines(code)).collapsed]),
 	)
 
-	if (diffLines) {
-		// Each run of added lines, split at the other rows. Comments and short lines do not split a run.
-		const addedRuns = [[]]
-		for (const row of diffLines(shown.old, shown.new)) {
-			// Blank lines are only there to make the code easy to read, as in the page header count.
-			if (row.text.trim() === "") continue
-			if (row.kind === "add") shownAdditions++
-			if (row.kind === "del") shownDeletions++
-			if (row.kind === "same") shownContext++
-			if (row.kind === "add") addedRuns.at(-1).push(row.text)
-			else addedRuns.push([])
-		}
-		const baseRuns = path === undefined ? new Set() : baseRunsOf(path)
-		const moved = addedRuns
-			.flatMap(lines => [...addRuns(new Set(), lines)])
-			.find(run => removedRuns.has(run) || baseRuns.has(run))
-		if (moved) {
-			warnings.push(
-				`${name}: added lines that are also in a row at the base, so the code moved or was extracted. Show the base code on the old side, so that they are unchanged rows: ${moved.split("\n")[0]}`,
-			)
-		}
+	// Each run of added lines, split at the other rows. Comments and short lines do not split a run.
+	const addedRuns = [[]]
+	for (const row of diffLines(shown.old, shown.new)) {
+		// Blank lines are only there to make the code easy to read, as in the page header count.
+		if (row.text.trim() === "") continue
+		if (row.kind === "add") shownAdditions++
+		if (row.kind === "del") shownDeletions++
+		if (row.kind === "same") shownContext++
+		if (row.kind === "add") addedRuns.at(-1).push(row.text)
+		else addedRuns.push([])
+	}
+	const baseRuns = path === undefined ? new Set() : baseRunsOf(path)
+	const moved = addedRuns
+		.flatMap(lines => [...addRuns(new Set(), lines)])
+		.find(run => removedRuns.has(run) || baseRuns.has(run))
+	if (moved) {
+		warnings.push(
+			`${name}: added lines that are also in a row at the base, so the code moved or was extracted. Show the base code on the old side, so that they are unchanged rows: ${moved.split("\n")[0]}`,
+		)
 	}
 
 	// A thread's data-line counts lines of the shown code on its side, from 1.
