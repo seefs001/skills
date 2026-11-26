@@ -47,7 +47,7 @@ while IFS= read -r f; do
     case "$link" in http*|/*) continue ;; esac
     [ -e "$dir/$link" ] || echo "FAIL: $f links missing $link"
   done
-done < <(find skills README.md CLAUDE.md FORK-CHANGELOG.md -name '*.md' -not -path '*/deprecated/*') | tee /tmp/check-fork-links.$$
+done < <(find skills global-agents README.md CLAUDE.md FORK-CHANGELOG.md -name '*.md' -not -path '*/deprecated/*') | tee /tmp/check-fork-links.$$
 [ -s /tmp/check-fork-links.$$ ] && fail=1; rm -f /tmp/check-fork-links.$$
 
 # 6. No em-dashes in fork prose (vendor/ and the upstream CHANGELOG are exempt).
@@ -109,6 +109,19 @@ if [ -f scripts/check-frontmatter.mjs ]; then
     echo "$fm_out"
     err "frontmatter check failed"
   fi
+fi
+
+# 11. Global agent instruction files: link targets exist, and no auto-discovered filenames inside global-agents/.
+if [ -f scripts/link-agents.sh ]; then
+  while read -r rel; do
+    [ -n "$rel" ] || continue
+    [ -f "$rel" ] || err "scripts/link-agents.sh references missing $rel"
+  done < <(sed -n 's|.*"\$REPO/\(global-agents/[^"]*\)".*|\1|p' scripts/link-agents.sh)
+fi
+if [ -d global-agents ]; then
+  while IFS= read -r hit; do
+    [ -n "$hit" ] && err "$hit risks auto-discovery inside this repo; use a harness-specific filename"
+  done < <(find global-agents -maxdepth 1 \( -iname 'AGENTS.md' -o -iname 'CLAUDE.md' -o -iname 'GEMINI.md' \))
 fi
 
 [ "$fail" = 0 ] && echo "fork invariants ok"

@@ -6,6 +6,13 @@ keeping Seefs-specific changes separate from the upstream release history.
 Use this file for fork-only notes. The upstream package changelog remains in
 [CHANGELOG.md](./CHANGELOG.md).
 
+## 2026-11-27
+
+### Global agent instructions
+
+- Added `global-agents/` (`dsh.md`, `pi-append-system.md`, `claude-code.md`, `codex.md`, `agy.md`, `home.md`, and `README.md`) to manage global instruction files for DSH, Pi, Claude Code, Codex, Antigravity (`agy`), and `~/AGENTS.md` in one place, aligned with the latest collaboration, bounded-retrieval, subagent, verification, and AstrLink rules while keeping harness-specific tool and memory adaptations.
+- Added `scripts/link-agents.sh` (with `--dry-run` and `--check`, plus automatic `.bak-YYYYMMDD-HHMMSS` backups for existing regular files) and extended `scripts/check-fork.sh` and `CLAUDE.md` to validate and document the global rule mappings.
+
 ## 2026-11-26
 
 ### Fork maintenance
