@@ -8,7 +8,8 @@ set -euo pipefail
 #    anything from the download.
 # 2. Copies the repo tree into vendor/mellamopablo/, dropping .git, node_modules,
 #    and upstream's repo-owner AGENTS.md.
-# 3. Writes vendor/mellamopablo/UPSTREAM with the source URL and commit SHA.
+# 3. Rewrites global `npx skills update` hints to this fork's sync script.
+# 4. Writes vendor/mellamopablo/UPSTREAM with the source URL and commit SHA.
 #
 # Usage: scripts/sync-mellamopablo.sh [ref]
 #   No ref: re-sync the commit pinned in vendor/mellamopablo/UPSTREAM (reproducible).
@@ -36,6 +37,10 @@ mkdir -p "$DEST"
 cp -R "$SRC/." "$DEST/"
 find "$DEST" -name node_modules -prune -exec rm -rf {} +
 for path in "${EXCLUDE[@]}"; do rm -rf "${DEST:?}/$path"; done
+
+# Point vendored skill update hints at this fork's sync script instead of global npx skills update.
+find "$DEST/skills" -name 'SKILL.md' -print0 |
+  xargs -0 perl -pi -e 's{`npx skills update [a-z0-9-]+ -g`}{`scripts/sync-mellamopablo.sh main` (in the skills repo)}g;'
 
 COMMIT="$(git -C "$TMP/repo" rev-parse HEAD)"
 cat > "$DEST/UPSTREAM" <<EOF

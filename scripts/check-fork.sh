@@ -72,7 +72,7 @@ if [ -d vendor/pstack/skills ]; then
   done
 fi
 
-# 8. Vendored MeLlamoPablo/skills: no name collisions, no upstream AGENTS.md, UPSTREAM present.
+# 8. Vendored MeLlamoPablo/skills: no name collisions, no upstream AGENTS.md, UPSTREAM present, adapted update hint.
 if [ -d vendor/mellamopablo/skills ]; then
   own=$(find skills -name SKILL.md -not -path '*/deprecated/*' | xargs -n1 dirname | xargs -n1 basename | sort)
   pstack_names=""
@@ -83,6 +83,32 @@ if [ -d vendor/mellamopablo/skills ]; then
   done
   [ -e vendor/mellamopablo/AGENTS.md ] && err "vendor/mellamopablo/AGENTS.md should be excluded by sync-mellamopablo.sh"
   [ -f vendor/mellamopablo/UPSTREAM ] || err "vendor/mellamopablo/UPSTREAM missing"
+  if rg -l 'npx skills update [a-z0-9-]+ -g' vendor/mellamopablo/skills >/tmp/check-fork-mp.$$; then
+    while read -r f; do err "unadapted npx skills update hint in $f"; done </tmp/check-fork-mp.$$
+  fi
+  rm -f /tmp/check-fork-mp.$$
+fi
+
+# 9. Vendored ui-diff: no name collisions against repo or other vendored skills.
+if [ -d vendor/ui-diff/skills ]; then
+  own=$(find skills -name SKILL.md -not -path '*/deprecated/*' | xargs -n1 dirname | xargs -n1 basename | sort)
+  pstack_names=""
+  mp_names=""
+  [ -d vendor/pstack/skills ] && pstack_names=$(ls vendor/pstack/skills | sort)
+  [ -d vendor/mellamopablo/skills ] && mp_names=$(ls vendor/mellamopablo/skills | sort)
+  existing=$(printf '%s\n%s\n%s\n' "$own" "$pstack_names" "$mp_names" | sed '/^$/d' | sort -u)
+  ui_diff_names=$(find vendor/ui-diff/skills -maxdepth 2 -name SKILL.md | xargs -n1 dirname | xargs -n1 basename | sort)
+  for n in $(comm -12 <(echo "$existing") <(echo "$ui_diff_names")); do
+    err "ui-diff skill $n collides with an existing skill"
+  done
+fi
+
+# 10. All repo SKILL.md frontmatter parses cleanly (upstream check-frontmatter.mjs).
+if [ -f scripts/check-frontmatter.mjs ]; then
+  if ! fm_out=$(node scripts/check-frontmatter.mjs 2>&1); then
+    echo "$fm_out"
+    err "frontmatter check failed"
+  fi
 fi
 
 [ "$fail" = 0 ] && echo "fork invariants ok"

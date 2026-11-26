@@ -17,8 +17,8 @@ They differ here:
 | | DeepSeek Harness | Pi |
 | --- | --- | --- |
 | Command syntax | `/<name>` | `/skill:<name>` |
-| Delegated workers | `subagent` with a fresh context window | Paseo agents with fresh context windows |
-| Per-role models | `subagent` takes a provider, model, and effort, so `setup-pstack` can write `~/.dsh/pstack-models.md`. It is optional for choosing a route. | None: every step runs on the session model, and `setup-pstack` is not a prerequisite. |
+| Delegated workers | `subagent` in native DSH, or `dsh_agents` `spawn_agent` in ACP sessions hosted in DSH, each with a fresh context window | Paseo agents with fresh context windows |
+| Per-role models | `subagent` and `spawn_agent` take a provider, model, and effort, so `setup-pstack` can write `~/.dsh/pstack-models.md`. It is optional for choosing a route. | None: every step runs on the session model, and `setup-pstack` is not a prerequisite. |
 
 Arena's cross-judge needs a model from another vendor, not merely another family: Fable and the other Claude models are one vendor. A DSH seat that falls back to the session model uses that model's actual family and vendor. Pi cannot supply an independent cross-vendor judge on its single session model. Read `setup-pstack` for the current defaults and old-rule migration; a sync does not rewrite the user's model rule.
 

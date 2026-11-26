@@ -8,6 +8,12 @@ Use this file for fork-only notes. The upstream package changelog remains in
 
 ## 2026-11-26
 
+### Fork maintenance
+
+- Extended `vendor/pstack/docs/harness/dsh.md` (and `skills/engineering/ask-matt/PSTACK.md`) to cover ACP CLI sessions hosted in DeepSeek Harness alongside native DSH sessions, mapping delegation, model discovery, worktree isolation, and resume to `dsh_agents` MCP tools (`list_providers`, `spawn_agent`, `send_message`, `read_agent_result`).
+- Updated `scripts/check-fork.sh` to invoke `scripts/check-frontmatter.mjs`, check `vendor/ui-diff/skills/` for name collisions, and verify the vendored `summarize-pr` update hint.
+- Updated `scripts/sync-mellamopablo.sh` (and `vendor/mellamopablo/skills/summarize-pr/SKILL.md`) to rewrite the global `npx skills update summarize-pr -g` hint to `scripts/sync-mellamopablo.sh main` (in the skills repo), avoiding conflicts with `scripts/link-skills.sh` symlinks.
+
 ### Upstream and vendored sync
 
 - Merged `upstream/main` at `6f7f783`:

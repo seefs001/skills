@@ -37,8 +37,8 @@ Every skill that dispatches a subagent says to start it with a fresh context win
 
 `vendor/mellamopablo/` is a vendored copy of [`MeLlamoPablo/skills`](https://github.com/MeLlamoPablo/skills) (currently `summarize-pr`), linked locally and not shipped in the plugin. Sync it by hand, in the same session as every `upstream` (mattpocock/skills) sync:
 
-1. Run `scripts/sync-mellamopablo.sh` (pass `main` to upgrade; no argument re-syncs the commit pinned in `vendor/mellamopablo/UPSTREAM`). It replaces `vendor/mellamopablo/`, drops `.git`, `node_modules`, and upstream's `AGENTS.md` (which carries upstream-only auto-commit instructions), and updates `vendor/mellamopablo/UPSTREAM`.
-2. Run `scripts/check-fork.sh`; it checks for skill name collisions against `skills/` and `vendor/pstack/skills/`, verifies `vendor/mellamopablo/AGENTS.md` is absent, and checks `UPSTREAM`. Review `git diff vendor/mellamopablo`.
+1. Run `scripts/sync-mellamopablo.sh` (pass `main` to upgrade; no argument re-syncs the commit pinned in `vendor/mellamopablo/UPSTREAM`). It replaces `vendor/mellamopablo/`, drops `.git`, `node_modules`, and upstream's `AGENTS.md` (which carries upstream-only auto-commit instructions), rewrites global `npx skills update` hints to `scripts/sync-mellamopablo.sh main`, and updates `vendor/mellamopablo/UPSTREAM`.
+2. Run `scripts/check-fork.sh`; it checks for skill name collisions against `skills/` and `vendor/pstack/skills/`, verifies `vendor/mellamopablo/AGENTS.md` is absent, checks `UPSTREAM`, and verifies the adapted update hint (alongside `vendor/ui-diff` collisions and `scripts/check-frontmatter.mjs`). Review `git diff vendor/mellamopablo`.
 3. If skills or behaviour change, update `skills/engineering/ask-matt/SKILL.md` and `docs/engineering/ask-matt.md`, and re-run `scripts/link-skills.sh` if skill names changed.
 
 ### Vendored pstack
