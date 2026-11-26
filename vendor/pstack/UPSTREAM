@@ -1,3 +1,3 @@
-source: https://github.com/cursor/plugins/tree/ca782ed8b3c2c521cead8e1720d55c3a5dbf2347/harness/pstack/claude-code
-commit: ca782ed8b3c2c521cead8e1720d55c3a5dbf2347
+source: https://github.com/cursor/plugins/tree/b7b93c36be9bcc36a74db438e0fd385d660bc559/harness/pstack/claude-code
+commit: b7b93c36be9bcc36a74db438e0fd385d660bc559
 version: 0.15.48

@@ -6,6 +6,15 @@ keeping Seefs-specific changes separate from the upstream release history.
 Use this file for fork-only notes. The upstream package changelog remains in
 [CHANGELOG.md](./CHANGELOG.md).
 
+## 2026-11-26
+
+### Upstream and vendored sync
+
+- Merged `upstream/main` at `6f7f783`:
+  - `domain-modeling` glossary format (`skills/engineering/domain-modeling/GLOSSARY-FORMAT.md`) now bolds other glossary terms referenced inside definitions so relationships are explicit (#1485). No conflicts and no fork-only overrides needed.
+- Synced `vendor/pstack/` (`scripts/sync-pstack.sh main`) from `ca782ed8b3c2c521cead8e1720d55c3a5dbf2347` to `b7b93c36be9bcc36a74db438e0fd385d660bc559`. Metadata-only sync: vendored content is unchanged and the version remains `0.15.48`. Existing `ask-matt` routing, docs, and DSH/Pi adapters still apply.
+- Synced `vendor/mellamopablo/` (`scripts/sync-mellamopablo.sh main`): already at `72199a8508b019c950c909a5b2a9906d5cfc452c`, no changes.
+
 ## 2026-11-25
 
 ### Upstream and vendored sync
