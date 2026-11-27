@@ -13,6 +13,17 @@ Use this file for fork-only notes. The upstream package changelog remains in
 - Added `global-agents/` (`dsh.md`, `pi-append-system.md`, `claude-code.md`, `codex.md`, `agy.md`, `home.md`, and `README.md`) to manage global instruction files for DSH, Pi, Claude Code, Codex, Antigravity (`agy`), and `~/AGENTS.md` in one place, aligned with the latest collaboration, bounded-retrieval, subagent, verification, and AstrLink rules while keeping harness-specific tool and memory adaptations.
 - Added `scripts/link-agents.sh` (with `--dry-run` and `--check`, plus automatic `.bak-YYYYMMDD-HHMMSS` backups for existing regular files) and extended `scripts/check-fork.sh` and `CLAUDE.md` to validate and document the global rule mappings.
 
+### Personal skills
+
+- Added `skills/personal/seefs-mode/` (`SKILL.md` and `agents/openai.yaml`), a user-invoked personal working mode layered over `global-agents/` covering hard checkpoints, high-leverage framing, empirical debugging, sibling-sweep anti-recurrence, explicit-delegation propagation and model routing, and skill triggers; registered it in `skills/personal/README.md` and `skills/engineering/ask-matt/SKILL.md`.
+
+### Upstream and vendored sync
+
+- Fetched `upstream/main`; it remains at `6f7f783`, already merged into local `main`, so no merge was needed.
+- Synced `vendor/pstack/` (`scripts/sync-pstack.sh main`): already at `0.15.48` (`b7b93c36be9bcc36a74db438e0fd385d660bc559`), no changes. Existing `ask-matt` routing, docs, and DSH/Pi adapters still apply.
+- Synced `vendor/mellamopablo/` (`scripts/sync-mellamopablo.sh main`): already at `72199a8508b019c950c909a5b2a9906d5cfc452c`, no changes.
+- Fast-forwarded `vendor/ui-diff` submodule from `3075b4c` to `66454fb` (`v2.1.0`): adds measured element changes separating causes from effects, verdict-first PR comments, local working-tree `check`, hover and focus state diffs, recorded flows, and single-component mode. Updated the `/ui-diff` summary in `skills/engineering/ask-matt/SKILL.md`.
+
 ## 2026-11-26
 
 ### Fork maintenance

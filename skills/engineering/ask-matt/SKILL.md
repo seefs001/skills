@@ -96,7 +96,7 @@ Read [PHASE-BOUNDARIES.md](PHASE-BOUNDARIES.md) for the ordered tree: the five q
 
 Off the main flow entirely.
 
-- **`/ui-diff`** (local only): compare a frontend change against its base when a reviewer needs before/after screenshots and highlighted pixel differences.
+- **`/ui-diff`** (local only): compare a frontend change against its base (routes, hover/focus/open states, recorded flows, or single components) with measured element changes, before/after screenshots, and highlighted pixel differences.
 - **`/summarize-pr`** (local only): build a simplified HTML overview of a pull request (direction, shortened diffs, flow charts, decisions, open human review threads, and tests) so a reviewer can check the PR's direction without reading all of its code. Unlike `/pr`, which writes the PR description body itself, `/summarize-pr` produces a standalone review page.
 
 - **`/grill-me`**: the same relentless interview as `/grill-with-docs`, but **stateless**: it saves nothing locally and builds no `GLOSSARY.md`. Reach for it when you are **not working in a working directory** (sharpening a plan, a design, a piece of writing, anything with no repo under it). If you are in a working directory, use `/grill-with-docs` instead: it runs the same interview and leaves a paper trail, so it is strictly the better one.
@@ -113,6 +113,7 @@ Off the main flow entirely.
 - **`/software-factory`** (experimental, installed separately rather than shipped in the plugin): shared language, task examples and service surveys for designing an agent-driven software factory. Invoke it alongside a grilling session when deciding which tasks to automate, which services to use and where human review belongs; it is a design reference, not a factory runner.
 - **`/chief-of-staff`** (experimental, installed separately rather than shipped in the plugin): delegate tasks to fresh background subagents while keeping the conversation in the main session, and record what they taught you in a dated wiki (preferring an existing shared wiki) so the next session picks up the thread. It offers recurring jobs when tasks plainly recur, offers environment or convention fixes after friction, samples sessions for retros and takes larger work through spec, tickets and implementation. Invoke it yourself when you want a coordinator across tasks rather than a build of one settled spec.
 - **`/paseo-summary`** (personal, linked locally rather than shipped in the plugin): write or refresh the summary Artifact for a Paseo goal (ask, plan, decisions, results, evidence) from the conversation, the Desk and the workspace's Artifacts collection. Invoke it yourself when you want to see where a goal stands; it records nothing on the Desk. Its model-invoked companion **`/paseo-artifacts`** keeps plans, notes, diagrams and reports in that collection as the work produces them.
+- **`/seefs-mode`** (personal, linked locally rather than shipped in the plugin): Seefs' personal working mode layered over `global-agents/` (hard checkpoints, high-leverage framing, empirical debugging, sibling-sweep anti-recurrence, explicit-delegation model routing, and skill triggers). Invoke it yourself when you want that operating overlay without `poteto-mode`'s full playbook stack.
 
 ## Precondition
 

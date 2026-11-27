@@ -1,0 +1,5 @@
+interface:
+  display_name: "Seefs Mode"
+  short_description: "Seefs 个人工作模式：高杠杆决策、硬卡点实证、根因防复发与技能路由"
+policy:
+  allow_implicit_invocation: false
