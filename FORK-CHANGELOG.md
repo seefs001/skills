@@ -6,6 +6,16 @@ keeping Seefs-specific changes separate from the upstream release history.
 Use this file for fork-only notes. The upstream package changelog remains in
 [CHANGELOG.md](./CHANGELOG.md).
 
+## 2026-11-28
+
+### Upstream and vendored sync
+
+- Merged `upstream/main` at `bbadaa6`:
+  - `to-tickets` (`skills/engineering/to-tickets/SKILL.md`) now writes the parent issue's title before its reference in a ticket's `## Parent` section (#1495). Clean merge with no conflicts; the fork's `state-modeling` additions remain intact and needed.
+- Synced `vendor/pstack/` (`scripts/sync-pstack.sh main`): already at `0.15.48` (`b7b93c36be9bcc36a74db438e0fd385d660bc559`), no changes. Existing `ask-matt` routing, docs, and DSH/Pi adapters still apply.
+- Synced `vendor/mellamopablo/` (`scripts/sync-mellamopablo.sh main`): already at `72199a8508b019c950c909a5b2a9906d5cfc452c`, no changes.
+- Checked `vendor/ui-diff` submodule: already up to date at `66454fb` (`v2.1.0`).
+
 ## 2026-11-27
 
 ### Global agent instructions
