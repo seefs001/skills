@@ -13,7 +13,7 @@ Files here are named by harness instead of `AGENTS.md`, `CLAUDE.md`, or `GEMINI.
 | [claude-code.md](./claude-code.md) | `~/.claude/CLAUDE.md` | Claude Code |
 | [codex.md](./codex.md) | `~/.codex/AGENTS.md` | Codex |
 | [agy.md](./agy.md) | `~/.gemini/AGENTS.md` | Antigravity (`agy` CLI, App, and IDE) |
-| [home.md](./home.md) | `~/AGENTS.md` | Shared home-root policy (referenced by `vendor/pstack` adapters and walked up by Pi) |
+| [home.md](./home.md) | `~/AGENTS.md` | Shared home-root policy (referenced by `vendor/pstack`'s Pi adapter and walked up by Pi) |
 
 ## Usage
 

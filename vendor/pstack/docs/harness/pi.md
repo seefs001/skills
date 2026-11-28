@@ -13,6 +13,7 @@ This file is local to this fork. Upstream ships only `claude-code.md`; keep this
 | Open a todolist, or copy steps into it | Keep the list in your reply and update it at each phase. |
 | Run another pstack skill (`/name` or "the **name** skill") | `read` `<pstack>/skills/<name>/SKILL.md` and follow it. When you tell the user to type it, write `/skill:<name>`. |
 | `Grep`, `Glob`, `Read`, `Edit`, `Write`, `Bash` | `bash` with `rg` and `find`, `read`, `edit`, `write`, `bash`. Batch independent calls with `codemode`. |
+| Cursor's `/loop` (the wake mechanism of an autonomous run) | Skip with the Cursor-only line below. Pi has no built-in `/loop` wake command; run one explicit iteration at a time instead. |
 
 ## Subagent fields
 

@@ -38,58 +38,60 @@ git -C "$TMP/plugins" checkout --quiet FETCH_HEAD
 SRC="$TMP/plugins/harness/pstack/claude-code"
 [ -f "$SRC/plugin.json" ] || { echo "error: upstream layout changed, $SRC/plugin.json missing" >&2; exit 1; }
 
-# Keep the fork-owned adapters across the wipe.
-mkdir -p "$TMP/adapters"
-for a in "${ADAPTERS[@]}"; do
-  if [ -f "$DEST/$a" ]; then cp "$DEST/$a" "$TMP/adapters/$(basename "$a")"; fi
-done
-
-rm -rf "$DEST"
-mkdir -p "$DEST"
-cp -R "$SRC/." "$DEST/"
-find "$DEST" -name node_modules -prune -exec rm -rf {} +
-for path in "${EXCLUDE[@]}"; do rm -rf "${DEST:?}/$path"; done
+# Stage everything on the same filesystem so DEST is swapped only after all
+# rewrites succeed, and keep fork-owned adapters intact across the wipe.
+STAGING="$(dirname "$DEST")/.pstack.staging.$$"
+trap 'rm -rf "$TMP" "$STAGING"' EXIT
+mkdir -p "$STAGING"
+cp -R "$SRC/." "$STAGING/"
+find "$STAGING" -name node_modules -prune -exec rm -rf {} +
+for path in "${EXCLUDE[@]}"; do rm -rf "${STAGING:?}/$path"; done
 
 for a in "${ADAPTERS[@]}"; do
-  if [ -f "$TMP/adapters/$(basename "$a")" ]; then
-    cp "$TMP/adapters/$(basename "$a")" "$DEST/$a"
+  if [ -f "$DEST/$a" ]; then
+    cp "$DEST/$a" "$STAGING/$a"
   else
-    echo "warning: $a missing, write it before using the skills" >&2
+    echo "error: required fork adapter $DEST/$a is missing" >&2
+    exit 1
   fi
 done
 
 # Rename skills that collide with this repo.
 for n in "${RENAMES[@]}"; do
-  if [ -d "$DEST/skills/$n" ]; then
-    mv "$DEST/skills/$n" "$DEST/skills/pstack-$n"
-    perl -pi -e "s/^name: $n\$/name: pstack-$n/" "$DEST/skills/pstack-$n/SKILL.md"
+  if [ -d "$STAGING/skills/$n" ]; then
+    mv "$STAGING/skills/$n" "$STAGING/skills/pstack-$n"
+    perl -pi -e "s/^name: $n\$/name: pstack-$n/" "$STAGING/skills/pstack-$n/SKILL.md"
   fi
 done
 names_re="$(IFS='|'; echo "${RENAMES[*]}")"
 
 # Mechanical rewrites across every markdown file except the two adapters.
-find "$DEST" -name '*.md' -not -path "*/docs/harness/*" -print0 |
+# Keep `/pstack:<name>` untouched where upstream explains Claude Code's plugin
+# prefix; DSH and Pi command syntax is mapped by their harness adapters.
+find "$STAGING" -name '*.md' -not -path "*/docs/harness/*" -print0 |
   NAMES="$names_re" xargs -0 perl -pi -e '
     BEGIN { $n = $ENV{NAMES} }
     s{(\.\./|skills/)($n)/}{$1pstack-$2/}g;
     s{(?<![\w/-])/($n)\b}{/pstack-$1}g;
     s{\*\*($n)\*\* skill}{**pstack-$1** skill}g;
     s{`($n)`, and the principles}{`pstack-$1`, and the principles}g;
-    s{/pstack:([a-z-]+)}{/skill:$1}g;
     s{`pstack:(poteto-agent|comment-sicko)`}{`$1`}g;
     s{In Claude Code, read \[the Claude Code adapter\]\(((?:\.\./)+)docs/harness/claude-code\.md\) once per session before you follow this skill\. It maps the Cursor names in pstack skills to Claude Code\.}{Read your harness adapter once per session before you follow this skill: [DeepSeek Harness]($1docs/harness/dsh.md) or [Pi]($1docs/harness/pi.md). It maps the Cursor names in pstack skills to that harness.}g;
   '
 
 # README's command table starts lines with "<skill>:". Only that file has it.
-NAMES="$names_re" perl -pi -e 'BEGIN { $n = $ENV{NAMES} } s{^($n):(\s+)}{pstack-$1:$2}' "$DEST/README.md"
+NAMES="$names_re" perl -pi -e 'BEGIN { $n = $ENV{NAMES} } s{^($n):(\s+)}{pstack-$1:$2}' "$STAGING/README.md"
 
 COMMIT="$(git -C "$TMP/plugins" rev-parse HEAD)"
-VERSION="$(sed -n 's/.*"version": *"\([^"]*\)".*/\1/p' "$DEST/plugin.json" | head -1)"
-cat > "$DEST/UPSTREAM" <<EOF
+VERSION="$(sed -n 's/.*"version": *"\([^"]*\)".*/\1/p' "$STAGING/plugin.json" | head -1)"
+cat > "$STAGING/UPSTREAM" <<EOF
 source: https://github.com/cursor/plugins/tree/$COMMIT/harness/pstack/claude-code
 commit: $COMMIT
 version: $VERSION
 EOF
+
+rm -rf "$DEST"
+mv "$STAGING" "$DEST"
 
 echo "synced pstack $VERSION ($COMMIT) into vendor/pstack"
 echo "next: review the diff against the checklist in AGENTS.md (Vendored pstack)"

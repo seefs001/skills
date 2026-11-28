@@ -9,7 +9,7 @@ Agent skills that I made.
 ## Install
 
 ```
-npx skills add MeLlamoPablo/skills -g
+scripts/link-skills.sh
 ```
 
 It asks which agents to install the skills into.
@@ -17,7 +17,7 @@ It asks which agents to install the skills into.
 ## Update
 
 ```
-npx skills update -g
+scripts/sync-mellamopablo.sh main
 ```
 
 `summarize-pr` checks for updates each time it runs, and tells you when one is available.

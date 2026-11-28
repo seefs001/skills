@@ -2,9 +2,10 @@
 // installer uses, so a skill that would be skipped on install fails here first.
 import { readFileSync, readdirSync } from "node:fs";
 import { join, relative } from "node:path";
+import { fileURLToPath } from "node:url";
 import { parseDocument } from "yaml";
 
-const root = new URL("..", import.meta.url).pathname;
+const root = fileURLToPath(new URL("..", import.meta.url));
 
 function* skillFiles(dir) {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
@@ -18,7 +19,7 @@ const failures = [];
 
 for (const file of skillFiles(join(root, "skills"))) {
   const where = relative(root, file);
-  const match = readFileSync(file, "utf8").match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  const match = readFileSync(file, "utf8").match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/);
   if (!match) {
     failures.push(`${where}: no frontmatter block`);
     continue;
@@ -28,7 +29,13 @@ for (const file of skillFiles(join(root, "skills"))) {
     failures.push(`${where}: ${doc.errors[0].message.split("\n")[0]}`);
     continue;
   }
-  const data = doc.toJS();
+  let data;
+  try {
+    data = doc.toJS();
+  } catch (error) {
+    failures.push(`${where}: ${error instanceof Error ? error.message.split("\n")[0] : String(error)}`);
+    continue;
+  }
   for (const key of ["name", "description"]) {
     if (typeof data?.[key] !== "string" || data[key].trim() === "") {
       failures.push(`${where}: missing \`${key}\``);

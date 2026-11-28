@@ -101,9 +101,12 @@ def read_message(args: argparse.Namespace) -> str:
 def main() -> None:
     args = parse_args()
     message = read_message(args)
-    config = read_config()
-    token = os.environ.get("TELEGRAM_BOT_TOKEN") or config.get("TELEGRAM_BOT_TOKEN")
-    admin_id = os.environ.get("TELEGRAM_ADMIN_ID") or config.get("TELEGRAM_ADMIN_ID")
+    token = os.environ.get("TELEGRAM_BOT_TOKEN")
+    admin_id = os.environ.get("TELEGRAM_ADMIN_ID")
+    if not token or not admin_id:
+        config = read_config()
+        token = token or config.get("TELEGRAM_BOT_TOKEN")
+        admin_id = admin_id or config.get("TELEGRAM_ADMIN_ID")
     if not token:
         fail(f"TELEGRAM_BOT_TOKEN is not set in the environment or {CONFIG_PATH}")
     if not admin_id:

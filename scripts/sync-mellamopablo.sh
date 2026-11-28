@@ -32,21 +32,74 @@ git -C "$TMP/repo" checkout --quiet FETCH_HEAD
 SRC="$TMP/repo"
 [ -d "$SRC/skills" ] || { echo "error: upstream layout changed, $SRC/skills missing" >&2; exit 1; }
 
-rm -rf "$DEST"
-mkdir -p "$DEST"
-cp -R "$SRC/." "$DEST/"
-find "$DEST" -name node_modules -prune -exec rm -rf {} +
-for path in "${EXCLUDE[@]}"; do rm -rf "${DEST:?}/$path"; done
+STAGING="$(dirname "$DEST")/.mellamopablo.staging.$$"
+trap 'rm -rf "$TMP" "$STAGING"' EXIT
+mkdir -p "$STAGING"
+cp -R "$SRC/." "$STAGING/"
+find "$STAGING" -name node_modules -prune -exec rm -rf {} +
+for path in "${EXCLUDE[@]}"; do rm -rf "${STAGING:?}/$path"; done
 
-# Point vendored skill update hints at this fork's sync script instead of global npx skills update.
-find "$DEST/skills" -name 'SKILL.md' -print0 |
+# Point vendored skill update hints and README at this fork's sync script instead of global npx skills update.
+find "$STAGING/skills" -name 'SKILL.md' -print0 |
   xargs -0 perl -pi -e 's{`npx skills update [a-z0-9-]+ -g`}{`scripts/sync-mellamopablo.sh main` (in the skills repo)}g;'
+if [ -f "$STAGING/README.md" ]; then
+  perl -pi -e '
+    s{^npx skills add MeLlamoPablo/skills -g$}{scripts/link-skills.sh};
+    s{^npx skills update -g$}{scripts/sync-mellamopablo.sh main};
+  ' "$STAGING/README.md"
+fi
+
+# Patch summarize-pr's update probe so fork-rewritten SKILL.md does not cause
+# permanent false-positive update notices. Compare upstream tree SHAs instead.
+CHECK_UPDATE="$STAGING/skills/summarize-pr/scripts/check-update.sh"
+if [ -f "$CHECK_UPDATE" ]; then
+  cat > "$CHECK_UPDATE" <<'EOF'
+#!/usr/bin/env bash
+# Says when GitHub has a newer version of this skill. Prints nothing when the installed files are up to date.
+# Usage: check-update.sh
+# In this fork, SKILL.md is adapted locally, so compare upstream tree SHAs
+# against vendor/mellamopablo/UPSTREAM instead of hashing local files.
+set -euo pipefail
+
+skill=$(dirname "$0")/..
+upstream_file="$skill/../../UPSTREAM"
+
+if [ -f "$upstream_file" ]; then
+	pinned_tree=$(sed -n 's/^summarize-pr-tree: *//p' "$upstream_file" 2>/dev/null || true)
+	pinned_commit=$(sed -n 's/^commit: *//p' "$upstream_file" 2>/dev/null || true)
+	latest_tree=$(gh api 'repos/MeLlamoPablo/skills/git/trees/main:skills/summarize-pr' --jq '.sha')
+	if [ -z "$pinned_tree" ] && [ -n "$pinned_commit" ]; then
+		pinned_tree=$(gh api "repos/MeLlamoPablo/skills/git/trees/${pinned_commit}:skills/summarize-pr" --jq '.sha')
+	fi
+	if [ -n "$pinned_tree" ] && [ "$latest_tree" != "$pinned_tree" ]; then
+		echo "summarize-pr has an update."
+	fi
+	exit 0
+fi
+
+files=$(gh api 'repos/MeLlamoPablo/skills/git/trees/main:skills/summarize-pr?recursive=1' \
+	--jq '.tree[] | select(.type == "blob") | "\(.sha)\t\(.path)"')
+
+while IFS=$'\t' read -r sha path; do
+	if [ "$(git hash-object --no-filters "$skill/$path" 2> /dev/null)" != "$sha" ]; then
+		echo "summarize-pr has an update."
+		exit 0
+	fi
+done <<< "$files"
+EOF
+  chmod +x "$CHECK_UPDATE"
+fi
 
 COMMIT="$(git -C "$TMP/repo" rev-parse HEAD)"
-cat > "$DEST/UPSTREAM" <<EOF
-source: https://github.com/MeLlamoPablo/skills/tree/$COMMIT
-commit: $COMMIT
-EOF
+SUMMARIZE_PR_TREE="$(git -C "$TMP/repo" rev-parse HEAD:skills/summarize-pr 2>/dev/null || true)"
+{
+  echo "source: https://github.com/MeLlamoPablo/skills/tree/$COMMIT"
+  echo "commit: $COMMIT"
+  [ -n "$SUMMARIZE_PR_TREE" ] && echo "summarize-pr-tree: $SUMMARIZE_PR_TREE"
+} > "$STAGING/UPSTREAM"
+
+rm -rf "$DEST"
+mv "$STAGING" "$DEST"
 
 echo "synced MeLlamoPablo/skills ($COMMIT) into vendor/mellamopablo"
 echo "next: review the diff against the checklist in AGENTS.md (Vendored MeLlamoPablo/skills)"

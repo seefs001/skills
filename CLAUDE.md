@@ -47,7 +47,7 @@ Every skill that dispatches a subagent says to start it with a fresh context win
 
 `vendor/pstack/` is upstream pstack's Claude Code tree (`cursor/plugins`, `harness/pstack/claude-code`), adapted for DeepSeek Harness (DSH) and Pi. Sync it by hand, in the same session as every `upstream` (mattpocock/skills) sync:
 
-1. Run `scripts/sync-pstack.sh`. It replaces `vendor/pstack/`, keeps the fork-owned adapters `docs/harness/dsh.md` and `docs/harness/pi.md`, renames colliding skills (`tdd` to `pstack-tdd`, `teach` to `pstack-teach`), rewrites `/pstack:<name>` to `/skill:<name>`, and points every skill at both fork adapters instead of the Claude Code one.
+1. Run `scripts/sync-pstack.sh`. It replaces `vendor/pstack/`, keeps the fork-owned adapters `docs/harness/dsh.md` and `docs/harness/pi.md`, renames colliding skills (`tdd` to `pstack-tdd`, `teach` to `pstack-teach`), and points every skill at both fork adapters instead of the Claude Code one.
 2. Run `scripts/check-fork.sh`; it checks the name collisions and leftover Claude Code openers below, plus the bucket rules above. Then review `git diff vendor/pstack`. Check that:
    - no skill still opens with "In Claude Code, read the Claude Code adapter" (`rg -l 'In Claude Code, read \[the Claude Code adapter' vendor/pstack/skills` prints nothing; `poteto-help` mentions the adapter in its install notes, which is fine);
    - no new skill name collides with one under `skills/` (compare `ls vendor/pstack/skills` with this repo's skill names). Add any collision to `RENAMES` in the script and re-run;

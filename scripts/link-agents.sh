@@ -13,8 +13,37 @@ set -euo pipefail
 # Existing regular files are backed up with a .bak-YYYYMMDD-HHMMSS suffix
 # before being replaced with symlinks.
 
-REPO="$(cd "$(dirname "$0")/.." && pwd)"
+REPO="$(cd -P "$(dirname "$0")/.." && pwd)"
 mode="link"
+
+canonical_file() {
+  local target="$1"
+  [ -e "$target" ] || return 1
+  local dir base
+  dir="$(cd -P "$(dirname "$target")" && pwd)"
+  base="$(basename "$target")"
+  if [ -L "$dir/$base" ]; then
+    local link
+    link="$(readlink "$dir/$base")"
+    case "$link" in
+      /*) canonical_file "$link" ;;
+      *) canonical_file "$dir/$link" ;;
+    esac
+  else
+    printf '%s/%s\n' "$dir" "$base"
+  fi
+}
+
+next_backup_path() {
+  local base="$1"
+  local candidate="$base"
+  local n=1
+  while [ -e "$candidate" ] || [ -L "$candidate" ]; do
+    candidate="${base}-${n}"
+    n=$((n + 1))
+  done
+  printf '%s\n' "$candidate"
+}
 
 usage() {
   cat <<'EOF'
@@ -82,8 +111,9 @@ for i in "${!srcs[@]}"; do
 
   if [ -L "$dest" ]; then
     current="$(readlink "$dest")"
-    if [ "$current" = "$src" ]; then
-      echo "ok: $dest -> $src"
+    resolved_current="$(canonical_file "$dest" 2>/dev/null || true)"
+    if [ "$current" = "$src" ] || [ "$resolved_current" = "$src" ]; then
+      echo "ok: $dest -> $current"
       continue
     fi
     case "$mode" in
@@ -103,7 +133,7 @@ for i in "${!srcs[@]}"; do
     echo "error: $dest is a directory; refusing to overwrite" >&2
     fail=1
   elif [ -e "$dest" ]; then
-    backup="${dest}.bak-${ts}"
+    backup="$(next_backup_path "${dest}.bak-${ts}")"
     case "$mode" in
       check)
         echo "unlinked: $dest is a regular file (expected -> $src)"
@@ -115,7 +145,12 @@ for i in "${!srcs[@]}"; do
         ;;
       link)
         mv "$dest" "$backup"
-        ln -s "$src" "$dest"
+        if ! ln -s "$src" "$dest"; then
+          mv "$backup" "$dest"
+          echo "error: failed to link $dest -> $src; restored backup" >&2
+          fail=1
+          continue
+        fi
         echo "backed up: $dest -> $backup"
         echo "linked: $dest -> $src"
         ;;
