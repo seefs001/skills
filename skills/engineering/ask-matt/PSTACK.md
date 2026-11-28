@@ -9,7 +9,7 @@ pstack is vendored under `vendor/pstack/` and linked locally by [link-skills.sh]
 Before describing pstack's execution capabilities, read the adapter for the current harness: the [DeepSeek Harness adapter](../../../vendor/pstack/docs/harness/dsh.md) or the [Pi adapter](../../../vendor/pstack/docs/harness/pi.md). In both:
 
 - The local names are `pstack-tdd` and `pstack-teach`; `tdd` and `teach` still mean this repo's skills.
-- Subagents require an explicit request to delegate. Without it, the current agent does the briefs itself on the session model. Do not promise independent multi-model review from a single-agent run.
+- Start each subagent with a fresh context window; if you handle a review brief yourself on the session model, do not promise independent multi-model review.
 - Cursor-only steps follow the adapter's skip rules. A route does not authorize Git writes, external writes, global configuration changes, or new tests; apply the user's rules before executing any skill.
 
 They differ here:

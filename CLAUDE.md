@@ -5,7 +5,7 @@ Skills are organized into bucket folders under `skills/`:
 - `misc/`: kept around but rarely used, not promoted
 - `in-progress/`: beta: public on purpose, feedback wanted, not shipped in the plugin
 - `deprecated/`: no longer used
-- `personal/`: fork-only, tied to Seefs' own setup (Telegram, Paseo); not promoted, linked locally by `scripts/link-skills.sh`
+- `personal/`: fork-only, tied to Seefs' own setup (Telegram, working mode); not promoted, linked locally by `scripts/link-skills.sh`
 
 Every skill in `engineering/` or `productivity/` (the **promoted** buckets) must have a reference in the top-level `README.md` and an entry in `.claude-plugin/plugin.json`'s `skills` array (the Claude Code plugin ships exactly the promoted set). Skills in `misc/`, `in-progress/`, `deprecated/`, and `personal/` must not appear in either.
 

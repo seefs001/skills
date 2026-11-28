@@ -38,5 +38,5 @@ scripts/link-agents.sh --check
 ## Notes
 
 - All five harness files stay aligned with the same core `# 全局协作规则` baseline while keeping harness-specific differences for parallel tool calls, subagent delegation, file/search tools, and Nowledge Mem access.
-- `home.md` stays compact (`## 子代理`, `## 验证授权`, and the AstrLink block) because Pi walks parent directories up to `~/AGENTS.md` alongside `~/.pi/agent/APPEND_SYSTEM.md`.
+- `home.md` stays compact (`## 验证授权` and the AstrLink block) because Pi walks parent directories up to `~/AGENTS.md` alongside `~/.pi/agent/APPEND_SYSTEM.md`.
 - Each file keeps the `<!-- astrlink-debug:begin -->` block with `~` instead of a hardcoded home path. When AstrLink updates or removes its debugging tools, it may rewrite symlink targets with an absolute path; review `git diff global-agents/` after AstrLink changes.

@@ -8,7 +8,7 @@ This file is local to this fork. Upstream ships only `claude-code.md`; keep this
 
 | Cursor | Pi |
 | --- | --- |
-| `Task`, a subagent | Follow the user's subagent rules (`~/AGENTS.md`). Without an explicit request to delegate, do the subagent's work yourself, one brief at a time, and say so in one line. With the request, start each worker through Paseo (the `paseo` skill) with a fresh context window and paste the brief in. |
+| `Task`, a subagent | Start each worker through Paseo (the `paseo` skill) with a fresh context window and paste the brief in. If you handle a brief yourself instead of spawning, say so in one line. |
 | `AskQuestion` | Ask in plain text in your reply, with numbered options when the skill gives choices. |
 | Open a todolist, or copy steps into it | Keep the list in your reply and update it at each phase. |
 | Run another pstack skill (`/name` or "the **name** skill") | `read` `<pstack>/skills/<name>/SKILL.md` and follow it. When you tell the user to type it, write `/skill:<name>`. |
