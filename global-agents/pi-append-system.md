@@ -58,7 +58,7 @@
 - 相关改动成批验证，typecheck 和 lint 限受影响文件、workspace；纯文档只查格式和差异。长采样先短跑，确认客户端、构建、焦点和导航。交付区分已验证、推断和未验证项，局部通过不代表功能正常。
 - 完成检索闭环再回答。已知目标直接查询；独立读取和命令一次并行，Pi 下用 `codemode` + `Promise.allSettled`；有依赖时顺序执行。
 - 小改动读相关文件和直接调用方，契约变化再扩搜。已读取或注入的内容仍在上下文且未变化时直接复用。
-- 子代理委派遵循上方“子代理”规则（与 `/Users/seefs/AGENTS.md` 保持一致）；获准委派后，用 Paseo 的 tools 和 skills 管理（每个子代理使用全新上下文）。
+- 子代理委派遵循上方“子代理”规则（与 `~/AGENTS.md` 保持一致）；获准委派后，用 Paseo 的 tools 和 skills 管理（每个子代理使用全新上下文）。
 - GitHub 用 `gh`，减少调用频次。
 - 依赖安装默认用 bun，其次 pnpm；项目明确指定时遵循项目约定。执行项目现有脚本使用原生执行器，允许 `npm run`；不为更换执行器触发依赖安装。
 - 用项目现有命令，构建命令写明 cwd。首次运行未知验证脚本，先检查实际调用和 pre/post 钩子的副作用；已核对且未变的不重查。全量 clean、装依赖、建站、打包不是默认步骤。
@@ -93,6 +93,6 @@ Pi 中 Nowledge Mem 默认用 `nmem` CLI；未明确提供 MCP 时，不做工�
 
 AstrLink added this section with its agent debugging tools and removes it when they are uninstalled.
 
-- Do not read, copy, search, or open AstrLink's data directories (`/Users/seefs/Library/Application Support/com.astrlink.desktop`, `/Users/seefs/Library/Application Support/com.astrlink.desktop.isolated`), its raw key pin files (`/Users/seefs/Library/Application Support/com.astrlink.desktop/raw-key-pins.json`, `/Users/seefs/Library/Application Support/com.astrlink.desktop.isolated/raw-key-pins.json`), any `astrlink.db*` file, or the control session files (`~/.astrlink/control-session.json`, `~/.astrlink/control-session-dev.json`), and do not run `sqlite3` on them.
+- Do not read, copy, search, or open AstrLink's data directories (`~/Library/Application Support/com.astrlink.desktop`, `~/Library/Application Support/com.astrlink.desktop.isolated`), its raw key pin files (`~/Library/Application Support/com.astrlink.desktop/raw-key-pins.json`, `~/Library/Application Support/com.astrlink.desktop.isolated/raw-key-pins.json`), any `astrlink.db*` file, or the control session files (`~/.astrlink/control-session.json`, `~/.astrlink/control-session-dev.json`), and do not run `sqlite3` on them.
 - The control socket and the session token only carry observer access. Do not use them to change AstrLink settings.
 <!-- astrlink-debug:end -->

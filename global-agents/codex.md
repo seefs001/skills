@@ -91,6 +91,6 @@
 
 AstrLink added this section with its agent debugging tools and removes it when they are uninstalled.
 
-- Do not read, copy, search, or open AstrLink's data directories (`/Users/seefs/Library/Application Support/com.astrlink.desktop`, `/Users/seefs/Library/Application Support/com.astrlink.desktop.isolated`), its raw key pin files (`/Users/seefs/Library/Application Support/com.astrlink.desktop/raw-key-pins.json`, `/Users/seefs/Library/Application Support/com.astrlink.desktop.isolated/raw-key-pins.json`), any `astrlink.db*` file, or the control session files (`~/.astrlink/control-session.json`, `~/.astrlink/control-session-dev.json`), and do not run `sqlite3` on them.
+- Do not read, copy, search, or open AstrLink's data directories (`~/Library/Application Support/com.astrlink.desktop`, `~/Library/Application Support/com.astrlink.desktop.isolated`), its raw key pin files (`~/Library/Application Support/com.astrlink.desktop/raw-key-pins.json`, `~/Library/Application Support/com.astrlink.desktop.isolated/raw-key-pins.json`), any `astrlink.db*` file, or the control session files (`~/.astrlink/control-session.json`, `~/.astrlink/control-session-dev.json`), and do not run `sqlite3` on them.
 - The control socket and the session token only carry observer access. Do not use them to change AstrLink settings.
 <!-- astrlink-debug:end -->
